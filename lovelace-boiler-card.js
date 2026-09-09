@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.3.1";
+const BOILER_CARD_VERSION = "0.3.2";
 
 const DEFAULTS = {
   title: "",
@@ -619,7 +619,7 @@ class LovelaceBoilerCard extends HTMLElement {
               <text id="txt-heating-target" class="target" x="40" y="50">—</text>
             </g>
 
-            <g data-entity-key="outside_temp" tabindex="0" transform="translate(792 53)">
+            <g data-entity-key="outside_temp" tabindex="0" transform="translate(780 48)">
               <rect class="pill-bg" width="130" height="37" rx="7"></rect>
               <circle class="pill-icon" cx="18" cy="18" r="7"></circle>
               <path class="pill-icon" d="M18 4v5M18 27v5M4 18h5M27 18h5M8 8l4 4M24 24l4 4M28 8l-4 4M12 24l-4 4" stroke="var(--bc-metal-light)" stroke-width="2" fill="none"></path>
@@ -627,8 +627,8 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- Wider house roof / radiator -->
-            <path d="M865 150 L1015 45 L1165 150 V285" fill="none" stroke="var(--bc-metal-light)" stroke-width="14"></path>
-            <g data-entity-key="room_temp" tabindex="0" transform="translate(944 108)">
+            <path d="M915 150 L1045 48 L1188 160 V285" fill="none" stroke="var(--bc-metal-light)" stroke-width="14"></path>
+            <g data-entity-key="room_temp" tabindex="0" transform="translate(968 114)">
               <rect class="pill-bg" width="170" height="38" rx="7"></rect>
               <path class="pill-icon" d="M7 20l14-12 14 12h-4v12H11V20H7zm9 10h10V19H16v11z"></path>
               <text id="txt-room-temp" class="value-small" x="43" y="24">—</text>
@@ -649,10 +649,9 @@ class LovelaceBoilerCard extends HTMLElement {
               <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
               <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
             </g>
-            <path class="hot" d="M683 350 H790 V390 H830"></path>
+            <path class="hot" d="M683 350 H830"></path>
             <path class="cold" d="M830 465 H545"></path>
-            <polygon class="arrow-hot" points="716,343 730,350 716,357"></polygon>
-            <polygon class="arrow-hot" points="778,383 792,390 778,397"></polygon>
+            <polygon class="arrow-hot" points="744,343 758,350 744,357"></polygon>
             <polygon class="arrow-cold" points="690,458 676,465 690,472"></polygon>
 
             <!-- DHW tank -->
