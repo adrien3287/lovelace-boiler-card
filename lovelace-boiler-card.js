@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.3.2";
+const BOILER_CARD_VERSION = "0.4.0";
 
 const DEFAULTS = {
   title: "",
@@ -611,7 +611,7 @@ class LovelaceBoilerCard extends HTMLElement {
             <polygon class="arrow-cold" points="870,218 856,225 870,232"></polygon>
             <polygon class="arrow-cold" points="740,218 726,225 740,232"></polygon>
 
-            <g data-entity-key="heating_flow_temp" tabindex="0" transform="translate(725 103)">
+            <g data-entity-key="heating_flow_temp" tabindex="0" transform="translate(720 176)">
               <rect class="pill-bg" width="145" height="55" rx="7"></rect>
               <path class="pill-icon" d="M14 10h8v20a7 7 0 1 1-8 0V10zm4 3v20l-2 1a4 4 0 1 0 4 0l-2-1V13z"></path>
               <text id="label-flow" class="small-label" x="40" y="17">Départ</text>
@@ -619,7 +619,7 @@ class LovelaceBoilerCard extends HTMLElement {
               <text id="txt-heating-target" class="target" x="40" y="50">—</text>
             </g>
 
-            <g data-entity-key="outside_temp" tabindex="0" transform="translate(780 48)">
+            <g data-entity-key="outside_temp" tabindex="0" transform="translate(1038 82)">
               <rect class="pill-bg" width="130" height="37" rx="7"></rect>
               <circle class="pill-icon" cx="18" cy="18" r="7"></circle>
               <path class="pill-icon" d="M18 4v5M18 27v5M4 18h5M27 18h5M8 8l4 4M24 24l4 4M28 8l-4 4M12 24l-4 4" stroke="var(--bc-metal-light)" stroke-width="2" fill="none"></path>
@@ -627,13 +627,13 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- Wider house roof / radiator -->
-            <path d="M915 150 L1045 48 L1188 160 V285" fill="none" stroke="var(--bc-metal-light)" stroke-width="14"></path>
-            <g data-entity-key="room_temp" tabindex="0" transform="translate(968 114)">
+            <path d="M320 185 L745 20 L1184 240 V540" fill="none" stroke="var(--bc-metal-light)" stroke-width="6"></path>
+            <g data-entity-key="room_temp" tabindex="0" transform="translate(655 72)">
               <rect class="pill-bg" width="170" height="38" rx="7"></rect>
               <path class="pill-icon" d="M7 20l14-12 14 12h-4v12H11V20H7zm9 10h10V19H16v11z"></path>
               <text id="txt-room-temp" class="value-small" x="43" y="24">—</text>
             </g>
-            <g transform="translate(1014 170)" fill="var(--bc-metal)">
+            <g transform="translate(1008 172)" fill="var(--bc-metal)">
               <path d="M0 0h12l-4 61H-4z"></path>
               <path d="M16 0h12l-4 61H12z"></path>
               <path d="M32 0h12l-4 61H28z"></path>
@@ -675,14 +675,14 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- DHW temperatures: top / middle + target / bottom -->
-            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1052 300)">
+            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1042 350)">
               <text id="label-top" class="small-label" x="0" y="8">Haut</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
               <text id="txt-dhw-top" class="value-small" x="39" y="41">—</text>
             </g>
 
-            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1052 374)">
+            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1042 420)">
               <text id="label-middle" class="small-label" x="0" y="8">Milieu</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="52" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
@@ -690,7 +690,7 @@ class LovelaceBoilerCard extends HTMLElement {
               <text id="txt-dhw-target" class="target" x="39" y="57">—</text>
             </g>
 
-            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1052 454)">
+            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1042 492)">
               <text id="label-bottom" class="small-label" x="0" y="8">Bas</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
