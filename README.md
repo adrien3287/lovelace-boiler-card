@@ -1,36 +1,44 @@
 # Lovelace Boiler Card
 
-A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with:
+**Current version: 0.2.0**
+
+A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
+
+## Features
 
 - heating-oil tank with live fill level and optional volume,
-- boiler temperature and colour-coded burner flame,
+- oil boiler temperature,
+- colour-coded burner flame located inside the boiler,
+- flue/chimney with optional flue-gas temperature,
+- optional boiler-return temperature,
 - one radiator circuit with pump, outside temperature, room temperature, actual flow temperature and red setpoint,
-- one parallel domestic-hot-water circuit with pump,
+- one parallel DHW primary circuit with pump and a heat-exchanger coil in the lower half of the tank,
 - DHW temperatures at top / middle / bottom plus a red DHW setpoint at the middle sensor,
-- electric immersion heater shown in grey / green / red,
-- click/tap on a sensor or device to open Home Assistant **More info**.
+- electric immersion heater represented by a horizontal element entering the tank from the left,
+- electric-heater state shown by colour: grey / green / red,
+- click/tap on a sensor or device opens Home Assistant **More info**.
 
-The card contains the SVG inline, so HACS only needs to install one JavaScript file.
+The SVG is inline in `lovelace-boiler-card.js`; there is no runtime SVG dependency.
 
 ## Installation with HACS
 
-Create a GitHub repository named **`lovelace-boiler-card`** and put the files from this package in the repository root.
+Create a GitHub repository named exactly **`lovelace-boiler-card`** and place the contents of this package in the repository root.
 
-Then in HACS:
+In HACS:
 
 1. Open HACS.
-2. Open the three-dot menu → **Custom repositories**.
-3. Add your repository URL.
-4. Select **Dashboard** as the repository type.
+2. Open **Custom repositories**.
+3. Add the GitHub repository URL.
+4. Select **Dashboard** as repository type.
 5. Install **Lovelace Boiler Card**.
 
-HACS installs dashboard elements below `www/community/`. The expected resource is normally:
+The resource is normally:
 
 ```text
 /hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js
 ```
 
-If HACS does not add the resource automatically, add it under **Settings → Dashboards → Resources** as a JavaScript module.
+If HACS does not add it automatically, add that URL under **Settings → Dashboards → Resources** as a JavaScript module.
 
 ## Card type
 
@@ -38,19 +46,20 @@ If HACS does not add the resource automatically, add it under **Settings → Das
 type: custom:lovelace-boiler-card
 ```
 
-## Configuration for the current installation
-
-This example already uses the entities supplied for the boiler and radiator circuit:
+## Example configuration
 
 ```yaml
 type: custom:lovelace-boiler-card
-# title: Chaufferie  # optional
 
 oil_level: sensor.pourcent_fioul
 oil_volume: sensor.niveau_fioul
 
 boiler_temp: sensor.mosquitto_mqtt_broker_kessel_ist_temperatur
-burner_state: input_select.test2
+burner_state: input_select.statut_chaudiere
+
+# Optional: these elements are completely hidden when no entity is configured.
+# boiler_return_temp: sensor.temperature_retour_chaudiere
+flue_gas_temp: sensor.froeling_abgastemperatur
 
 heating_pump: binary_sensor.mosquitto_mqtt_broker_pompe_chauffage
 outside_temp: sensor.mosquitto_mqtt_broker_aussentemperatur
@@ -60,65 +69,88 @@ heating_target_temp: sensor.mosquitto_mqtt_broker_kessel_soll_temperatur
 
 dhw_pump: binary_sensor.mosquitto_mqtt_broker_pompe_eau_chaude
 dhw_top_temp: sensor.mosquitto_mqtt_broker_warmwasser_ist_temperatur
+# dhw_middle_temp: sensor.temperature_ecs_milieu
+# dhw_bottom_temp: sensor.temperature_ecs_bas
+# dhw_target_temp: sensor.consigne_ecs
 
-# Add these when the three DHW sensors / setpoint exist:
-dhw_middle_temp: sensor.REPLACE_ME_DHW_MIDDLE
-dhw_bottom_temp: sensor.REPLACE_ME_DHW_BOTTOM
-dhw_target_temp: sensor.REPLACE_ME_DHW_TARGET
-
-# Optional 3-state entity for the electric resistance:
-electric_heater_state: input_select.REPLACE_ME_ELECTRIC_HEATER
-
-# State mappings are comma-separated and case-insensitive.
-burner_preheat_states: "Vorheizen"
-burner_ignition_states: "Zünden, Zuenden, Anheizen, Starten, Zündung, Zuendung"
-burner_burning_states: "Heizen, SH Heizen, Feuererhaltung, Brennen"
-
-heater_disabled_states: "off, aus, disabled, deaktiviert"
-heater_enabled_states: "on, ein, enabled, bereit, ready"
-heater_heating_states: "heating, heizen, active, aktiv, chauffe, heating_on"
+electric_heater_state: input_select.statut_resistance
 ```
 
-Remove any `REPLACE_ME...` line until the corresponding entity exists. Missing optional sensors display `—`.
+## Boiler-state selector
 
-## Colour logic
+The default v0.2.0 mapping is designed for:
 
-### Burner flame
+```text
+Arrêt
+Veille
+Démarrage
+Brûleur actif
+Préchauffage
+```
 
-| Burner condition | Colour |
+| `input_select.statut_chaudiere` | Flame |
 |---|---|
-| stopped / unknown | grey |
-| preheating | yellow |
-| ignition | orange |
-| oil burning | red |
+| `Arrêt` | grey |
+| `Veille` | grey |
+| `Préchauffage` | yellow |
+| `Démarrage` | orange |
+| `Brûleur actif` | red |
 
-The exact Home Assistant states can be changed with `burner_preheat_states`, `burner_ignition_states` and `burner_burning_states`.
+The mapping can still be overridden:
 
-### Electric immersion heater
+```yaml
+burner_off_states: "Arrêt, Veille"
+burner_preheat_states: "Préchauffage"
+burner_ignition_states: "Démarrage"
+burner_burning_states: "Brûleur actif"
+```
 
-| Heater condition | Colour |
+Comparisons are case-insensitive and accent-insensitive.
+
+## Electric-heater selector
+
+Recommended helper:
+
+```text
+Arrêt
+Veille
+Chauffe
+```
+
+| Electric-heater state | Drawing |
 |---|---|
-| disabled / unknown | grey |
-| enabled / ready | green |
-| actively heating | red |
+| `Arrêt` | grey |
+| `Veille` | green |
+| `Chauffe` | red |
 
-The exact states can be changed with `heater_disabled_states`, `heater_enabled_states` and `heater_heating_states`.
+The mapping can be overridden:
 
-## Styling
+```yaml
+heater_disabled_states: "Arrêt"
+heater_enabled_states: "Veille"
+heater_heating_states: "Chauffe"
+```
 
-The card follows Home Assistant's card background and text colours. The main process colours intentionally match the source Fröling-style cards:
+## Optional temperature entities
 
-- hot water: `#C86464`
-- cold / return water: `#6E8CA0`
-- active pump: `#87AD27`
-- inactive pump: `#BBBBBB`
+These two elements do not display a `—` placeholder when absent; they disappear entirely from the SVG:
 
-The SVG is inline in `lovelace-boiler-card.js`; no separate `.svg` file is required at runtime.
+```yaml
+boiler_return_temp: sensor.temperature_retour_chaudiere
+flue_gas_temp: sensor.temperature_fumees
+```
 
-## Development
+`boiler_return_temp` is shown at the bottom of the boiler. `flue_gas_temp` is shown beside the chimney.
 
-No build step is required. Edit `lovelace-boiler-card.js`, bump `BOILER_CARD_VERSION`, commit, and create a GitHub release if desired.
+## Development / releases
+
+No build step is required. For a release:
+
+1. update `BOILER_CARD_VERSION` in `lovelace-boiler-card.js`,
+2. update `CHANGELOG.md`,
+3. commit and tag the release, for example `v0.2.0`,
+4. create the corresponding GitHub release so HACS can expose the new version cleanly.
 
 ## Credits
 
-The visual language and the flame path are adapted from the supplied `lovelace-froeling-card` project and its SVG/CSS customisations.
+The visual language and burner-flame path are adapted from the supplied `lovelace-froeling-card` project and its SVG/CSS customisations.
