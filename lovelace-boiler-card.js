@@ -7,11 +7,12 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.2.0";
+const BOILER_CARD_VERSION = "0.3.0";
 
 const DEFAULTS = {
   title: "",
   burner_off_states: "Arrêt, Veille",
+  boiler_standby_states: "Veille",
   burner_preheat_states: "Préchauffage",
   burner_ignition_states: "Démarrage",
   burner_burning_states: "Brûleur actif",
@@ -127,6 +128,7 @@ class LovelaceBoilerCard extends HTMLElement {
       dhw_top_temp: "sensor.mosquitto_mqtt_broker_warmwasser_ist_temperatur",
       electric_heater_state: "input_select.statut_resistance",
       burner_off_states: DEFAULTS.burner_off_states,
+      boiler_standby_states: DEFAULTS.boiler_standby_states,
       burner_preheat_states: DEFAULTS.burner_preheat_states,
       burner_ignition_states: DEFAULTS.burner_ignition_states,
       burner_burning_states: DEFAULTS.burner_burning_states,
@@ -196,6 +198,7 @@ class LovelaceBoilerCard extends HTMLElement {
           flatten: true,
           schema: [
             text("burner_off_states", "Brûleur gris — arrêt / veille"),
+            text("boiler_standby_states", "Chaudière verte — veille"),
             text("burner_preheat_states", "Brûleur jaune — préchauffage"),
             text("burner_ignition_states", "Brûleur orange — allumage"),
             text("burner_burning_states", "Brûleur rouge — combustion"),
@@ -299,6 +302,12 @@ class LovelaceBoilerCard extends HTMLElement {
     return ["on", "ein", "true", "1", "active", "running"].includes(state) ? "pump-on" : "pump-off";
   }
 
+  _boilerClass() {
+    const state = normalize(this._state("burner_state"));
+    const standby = stateList(this._config.boiler_standby_states, DEFAULTS.boiler_standby_states);
+    return standby.includes(state) ? "boiler-standby" : "boiler-normal";
+  }
+
   _heaterClass() {
     const state = normalize(this._state("electric_heater_state"));
     if (!state) return "heater-disabled";
@@ -361,6 +370,7 @@ class LovelaceBoilerCard extends HTMLElement {
     this._setOptionalVisible("optional-flue-gas", "flue_gas_temp");
 
     this._setClass("obj-flame", this._burnerClass());
+    this._setClass("obj-boiler-body", this._boilerClass());
     this._setClass("obj-heating-pump", this._pumpClass("heating_pump"));
     this._setClass("obj-dhw-pump", this._pumpClass("dhw_pump"));
     this._setClass("obj-electric-heater", this._heaterClass());
@@ -477,6 +487,10 @@ class LovelaceBoilerCard extends HTMLElement {
         .flame-burning { color: var(--bc-flame-burning); }
         .flame-shape { fill: currentColor; }
 
+        .boiler-normal { color: var(--bc-metal); }
+        .boiler-standby { color: #61a64b; }
+        .boiler-outline { stroke: currentColor; fill: none; }
+
         .heater-disabled { color: var(--bc-heater-disabled); }
         .heater-enabled { color: var(--bc-heater-enabled); }
         .heater-heating { color: var(--bc-heater-heating); }
@@ -524,7 +538,10 @@ class LovelaceBoilerCard extends HTMLElement {
               <rect x="95" y="103" width="60" height="18" rx="5" class="dark-fill"></rect>
               <g transform="translate(54 72)">
                 <rect class="pill-bg" width="143" height="38" rx="7"></rect>
-                <path class="pill-icon" d="M16 28a12 12 0 1 1 24 0h-4a8 8 0 1 0-16 0h-4zm12-11 8-7 2 2-7 8a4 4 0 1 1-3-3z"></path>
+                <path d="M14 29 A14 14 0 0 1 42 29" stroke="var(--bc-metal-light)" stroke-width="4" fill="none" stroke-linecap="round"></path>
+                <circle cx="28" cy="29" r="3.5" fill="var(--bc-metal-light)"></circle>
+                <path d="M28 29 L36 18" stroke="var(--bc-metal-light)" stroke-width="3.5" stroke-linecap="round"></path>
+                <path d="M17 26l3 1 M21 19l2 2 M28 15v3 M35 19l-2 2 M39 26l-3 1" stroke="var(--bc-metal-light)" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
                 <text id="txt-oil-level" class="value" x="50" y="25">—</text>
               </g>
               <text id="txt-oil-volume" class="value-small" x="125" y="446" text-anchor="middle">—</text>
@@ -535,10 +552,9 @@ class LovelaceBoilerCard extends HTMLElement {
             <polygon points="287,274 300,280 287,286" fill="var(--bc-oil)"></polygon>
 
             <!-- OIL BOILER -->
-            <g data-entity-key="boiler_temp" tabindex="0">
-              <rect x="320" y="145" width="185" height="265" rx="5" fill="none" stroke="var(--bc-metal)" stroke-width="8"></rect>
-              <line x1="320" y1="306" x2="505" y2="306" stroke="var(--bc-metal)" stroke-width="7"></line>
-              <rect x="340" y="340" width="68" height="52" rx="8" fill="none" stroke="var(--bc-metal-dark)" stroke-width="5"></rect>
+            <g id="obj-boiler-body" class="boiler-normal" data-entity-key="boiler_temp" tabindex="0">
+              <rect class="boiler-outline" x="320" y="145" width="185" height="265" rx="5" stroke-width="8"></rect>
+              <line class="boiler-outline" x1="320" y1="306" x2="505" y2="306" stroke-width="7"></line>
               <g transform="translate(345 165)">
                 <rect class="pill-bg" width="135" height="42" rx="7"></rect>
                 <path class="pill-icon" d="M18 8h8v17a7 7 0 1 1-8 0V8zm4 3v17l-2 1a4 4 0 1 0 4 0l-2-1V11z"></path>
@@ -546,10 +562,14 @@ class LovelaceBoilerCard extends HTMLElement {
               </g>
             </g>
 
-            <!-- Flue / chimney -->
-            <path d="M402 145 V78 H456 V42" stroke="var(--bc-metal)" stroke-width="16" fill="none" stroke-linejoin="miter"></path>
-            <path d="M444 38 H470" stroke="var(--bc-metal)" stroke-width="8"></path>
-            <g id="optional-flue-gas" data-entity-key="flue_gas_temp" tabindex="0" transform="translate(475 55)" style="display:none">
+            <!-- Flue / chimney: elbow, vertical stack, cap and smoke -->
+            <g aria-label="Flue chimney">
+              <path d="M392 145 V105 H445 V58" stroke="var(--bc-metal)" stroke-width="16" fill="none" stroke-linecap="square" stroke-linejoin="round"></path>
+              <path d="M445 58 V32" stroke="var(--bc-metal-light)" stroke-width="13" fill="none"></path>
+              <path d="M428 30 H462" stroke="var(--bc-metal-light)" stroke-width="7" stroke-linecap="round"></path>
+              <path d="M437 19 C428 10 442 4 434 -5 M449 20 C441 11 455 5 448 -4" stroke="var(--bc-muted)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"></path>
+            </g>
+            <g id="optional-flue-gas" data-entity-key="flue_gas_temp" tabindex="0" transform="translate(470 52)" style="display:none">
               <text id="label-flue" class="small-label" x="0" y="10">Fumées</text>
               <rect class="pill-bg" x="0" y="15" width="112" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 22h7v14a6 6 0 1 1-7 0V22zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V25z"></path>
@@ -563,18 +583,19 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- Optional boiler return temperature: only rendered when configured -->
-            <g id="optional-boiler-return" data-entity-key="boiler_return_temp" tabindex="0" transform="translate(418 335)" style="display:none">
-              <text id="label-return" class="small-label" x="0" y="10">Retour</text>
-              <rect class="pill-bg" x="0" y="15" width="78" height="42" rx="7"></rect>
-              <path class="pill-icon" d="M9 22h7v14a6 6 0 1 1-7 0V22zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V25z"></path>
-              <text id="txt-boiler-return" class="value-small" x="32" y="42">—</text>
+            <g id="optional-boiler-return" data-entity-key="boiler_return_temp" tabindex="0" transform="translate(340 335)" style="display:none">
+              <rect class="pill-bg" width="145" height="55" rx="7"></rect>
+              <path class="pill-icon" d="M14 10h8v20a7 7 0 1 1-8 0V10zm4 3v20l-2 1a4 4 0 1 0 4 0l-2-1V13z"></path>
+              <text id="label-return" class="small-label" x="40" y="17">Retour</text>
+              <text id="txt-boiler-return" class="value-small" x="40" y="39">—</text>
             </g>
 
             <!-- Common boiler manifold -->
-            <path class="hot" d="M505 238 H565 V175 H635"></path>
+            <!-- Common manifold; small gaps are intentional where hot/cold lines cross -->
+            <path class="hot" d="M505 238 H548 M562 238 H565 V175 H635"></path>
             <path class="hot" d="M565 238 V350 H635"></path>
-            <path class="cold" d="M505 390 H565 V225 H635"></path>
-            <path class="cold" d="M565 390 V465 H635"></path>
+            <path class="cold" d="M505 390 H555 V225 H558 M572 225 H635"></path>
+            <path class="cold" d="M555 390 V465 H635"></path>
 
             <!-- RADIATOR LOOP -->
             <g id="obj-heating-pump" class="pump-off" data-entity-key="heating_pump" tabindex="0" transform="translate(655 175)">
@@ -607,9 +628,9 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- Wider house roof / radiator -->
-            <path d="M885 145 L1015 55 L1140 145 V270" fill="none" stroke="var(--bc-metal-light)" stroke-width="14"></path>
-            <g data-entity-key="room_temp" tabindex="0" transform="translate(970 112)">
-              <rect class="pill-bg" width="138" height="38" rx="7"></rect>
+            <path d="M865 150 L1015 45 L1165 150 V285" fill="none" stroke="var(--bc-metal-light)" stroke-width="14"></path>
+            <g data-entity-key="room_temp" tabindex="0" transform="translate(950 110)">
+              <rect class="pill-bg" width="170" height="38" rx="7"></rect>
               <path class="pill-icon" d="M7 20l14-12 14 12h-4v12H11V20H7zm9 10h10V19H16v11z"></path>
               <text id="txt-room-temp" class="value-small" x="43" y="24">—</text>
             </g>
@@ -651,7 +672,7 @@ class LovelaceBoilerCard extends HTMLElement {
             <!-- Electric immersion heater: state-coloured box + horizontal element -->
             <g id="obj-electric-heater" class="heater-disabled" data-entity-key="electric_heater_state" tabindex="0">
               <rect class="heater-box" x="772" y="314" width="48" height="48" rx="6"></rect>
-              <path class="heater-bolt" d="M797 322h12l-7 12h9l-20 23 6-17h-9z"></path>
+              <path class="heater-bolt" d="M793 320 H805 L799 333 H808 L792 356 L797 340 H788 Z"></path>
               <path class="heater-tube" d="M820 338 H918"></path>
             </g>
 

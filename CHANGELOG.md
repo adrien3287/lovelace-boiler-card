@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+- Reworked boiler visuals and flue chimney.
+- Boiler outline turns green in `Veille`.
+- Removed lower-left boiler square.
+- Return temperature card now matches the flow-temperature card size.
+- Enlarged house and room-temperature area.
+- Corrected oil-level gauge icon and centered immersion-heater lightning symbol.
+- Added deliberate pipe gaps where red and blue circuits cross.
+
 ## 0.2.0
 
 - Removed the large section titles from the SVG (`Fioul`, `Chaudière`, `Circuit chauffage`, `Eau chaude`).
