@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.3.0**
+**Current version: 0.4.0**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 

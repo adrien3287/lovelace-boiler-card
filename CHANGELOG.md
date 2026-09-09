@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0
+- Reworked the global roof/house outline to match the desired large-cover composition.
+- Moved the room-temperature badge under the roof peak and moved the outside-temperature badge to the far right.
+- Repositioned the heating-flow badge and DHW temperature badges to better match the target layout.
+
+## 0.3.2
+- Moved and widened the house roof so the temperature frames are no longer visually cut.
+- Repositioned the room and outside temperature badges for better clearance.
+- Aligned the DHW supply pipe to the tank as a straight horizontal run.
+
+## 0.3.1
+- Simplified the hot/cold pipe routing in the SVG for a cleaner layout.
+- Increased separation between supply and return manifolds to avoid visual clashes.
+- Repositioned flue-gas and DHW temperature texts so labels do not touch nearby lines or shapes.
+- Slightly adjusted the room-temperature and boiler-status placements for better spacing.
+
 ## 0.3.0
 - Reworked boiler visuals and flue chimney.
 - Boiler outline turns green in `Veille`.
