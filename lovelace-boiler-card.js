@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.4.0";
+const BOILER_CARD_VERSION = "0.4.2";
 
 const DEFAULTS = {
   title: "",
@@ -592,7 +592,7 @@ class LovelaceBoilerCard extends HTMLElement {
 
             <!-- Simplified supply / return manifolds -->
             <path class="hot" d="M505 238 H585 V175 H635"></path>
-            <path class="hot" d="M585 238 V350 H635"></path>
+            <path class="hot" d="M585 238 V390 H635"></path>
             <path class="cold" d="M505 390 H545 V225 H635"></path>
             <path class="cold" d="M545 390 V465 H635"></path>
 
@@ -611,7 +611,7 @@ class LovelaceBoilerCard extends HTMLElement {
             <polygon class="arrow-cold" points="870,218 856,225 870,232"></polygon>
             <polygon class="arrow-cold" points="740,218 726,225 740,232"></polygon>
 
-            <g data-entity-key="heating_flow_temp" tabindex="0" transform="translate(720 176)">
+            <g data-entity-key="heating_flow_temp" tabindex="0" transform="translate(722 170)">
               <rect class="pill-bg" width="145" height="55" rx="7"></rect>
               <path class="pill-icon" d="M14 10h8v20a7 7 0 1 1-8 0V10zm4 3v20l-2 1a4 4 0 1 0 4 0l-2-1V13z"></path>
               <text id="label-flow" class="small-label" x="40" y="17">Départ</text>
@@ -619,7 +619,7 @@ class LovelaceBoilerCard extends HTMLElement {
               <text id="txt-heating-target" class="target" x="40" y="50">—</text>
             </g>
 
-            <g data-entity-key="outside_temp" tabindex="0" transform="translate(1038 82)">
+            <g data-entity-key="outside_temp" tabindex="0" transform="translate(1050 88)">
               <rect class="pill-bg" width="130" height="37" rx="7"></rect>
               <circle class="pill-icon" cx="18" cy="18" r="7"></circle>
               <path class="pill-icon" d="M18 4v5M18 27v5M4 18h5M27 18h5M8 8l4 4M24 24l4 4M28 8l-4 4M12 24l-4 4" stroke="var(--bc-metal-light)" stroke-width="2" fill="none"></path>
@@ -627,8 +627,8 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- Wider house roof / radiator -->
-            <path d="M320 185 L745 20 L1184 240 V540" fill="none" stroke="var(--bc-metal-light)" stroke-width="6"></path>
-            <g data-entity-key="room_temp" tabindex="0" transform="translate(655 72)">
+            <path d="M340 180 L760 5 L1188 220 V535" fill="none" stroke="var(--bc-metal-light)" stroke-width="6"></path>
+            <g data-entity-key="room_temp" tabindex="0" transform="translate(670 78)">
               <rect class="pill-bg" width="170" height="38" rx="7"></rect>
               <path class="pill-icon" d="M7 20l14-12 14 12h-4v12H11V20H7zm9 10h10V19H16v11z"></path>
               <text id="txt-room-temp" class="value-small" x="43" y="24">—</text>
@@ -642,16 +642,16 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- DHW PRIMARY LOOP -->
-            <g id="obj-dhw-pump" class="pump-off" data-entity-key="dhw_pump" tabindex="0" transform="translate(655 350)">
+            <g id="obj-dhw-pump" class="pump-off" data-entity-key="dhw_pump" tabindex="0" transform="translate(655 390)">
               <rect class="pump-shape" x="-28" y="-4" width="15" height="8" rx="1"></rect>
               <rect class="pump-shape" x="13" y="-4" width="15" height="8" rx="1"></rect>
               <circle cx="0" cy="0" r="18" fill="var(--bc-pill-bg)" stroke="currentColor" stroke-width="6"></circle>
               <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
               <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
             </g>
-            <path class="hot" d="M683 350 H830"></path>
+            <path class="hot" d="M683 390 H830"></path>
             <path class="cold" d="M830 465 H545"></path>
-            <polygon class="arrow-hot" points="744,343 758,350 744,357"></polygon>
+            <polygon class="arrow-hot" points="744,383 758,390 744,397"></polygon>
             <polygon class="arrow-cold" points="690,458 676,465 690,472"></polygon>
 
             <!-- DHW tank -->
@@ -675,14 +675,14 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- DHW temperatures: top / middle + target / bottom -->
-            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1042 350)">
+            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1052 300)">
               <text id="label-top" class="small-label" x="0" y="8">Haut</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
               <text id="txt-dhw-top" class="value-small" x="39" y="41">—</text>
             </g>
 
-            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1042 420)">
+            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1052 374)">
               <text id="label-middle" class="small-label" x="0" y="8">Milieu</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="52" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
@@ -690,7 +690,7 @@ class LovelaceBoilerCard extends HTMLElement {
               <text id="txt-dhw-target" class="target" x="39" y="57">—</text>
             </g>
 
-            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1042 492)">
+            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1052 454)">
               <text id="label-bottom" class="small-label" x="0" y="8">Bas</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
@@ -714,7 +714,7 @@ if (!window.customCards.some((card) => card.type === "lovelace-boiler-card")) {
     type: "lovelace-boiler-card",
     name: "Lovelace Boiler Card",
     preview: true,
-    description: "Oil boiler + radiator circuit + DHW tank in one SVG card.",
+    description: `Oil boiler + radiator circuit + DHW tank in one SVG card. v${BOILER_CARD_VERSION}`,
   });
 }
 

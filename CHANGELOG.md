@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.2
+- Raised the main roof line so it sits higher above the installation.
+- Restored the DHW top / middle / bottom temperature badges closer to the 0.3.2 layout.
+- Lowered the DHW hot branch and pump so the red line aligns with the red heat-exchanger entry.
+- Updated cache-busting guidance to `?v=0.4.2`.
+
+## 0.4.1
+- Bumped the version to force a clean update cycle.
+- Added explicit cache-busting guidance in the README (`?v=0.4.1`).
+- Slightly adjusted the room, outside and flow badges so a refreshed install is visibly different from 0.4.0.
+
 ## 0.4.0
 - Reworked the global roof/house outline to match the desired large-cover composition.
 - Moved the room-temperature badge under the roof peak and moved the outside-temperature badge to the far right.
