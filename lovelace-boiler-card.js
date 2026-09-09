@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.3.0";
+const BOILER_CARD_VERSION = "0.3.1";
 
 const DEFAULTS = {
   title: "",
@@ -569,8 +569,8 @@ class LovelaceBoilerCard extends HTMLElement {
               <path d="M428 30 H462" stroke="var(--bc-metal-light)" stroke-width="7" stroke-linecap="round"></path>
               <path d="M437 19 C428 10 442 4 434 -5 M449 20 C441 11 455 5 448 -4" stroke="var(--bc-muted)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"></path>
             </g>
-            <g id="optional-flue-gas" data-entity-key="flue_gas_temp" tabindex="0" transform="translate(470 52)" style="display:none">
-              <text id="label-flue" class="small-label" x="0" y="10">Fumées</text>
+            <g id="optional-flue-gas" data-entity-key="flue_gas_temp" tabindex="0" transform="translate(486 44)" style="display:none">
+              <text id="label-flue" class="small-label" x="0" y="9">Fumées</text>
               <rect class="pill-bg" x="0" y="15" width="112" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 22h7v14a6 6 0 1 1-7 0V22zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V25z"></path>
               <text id="txt-flue-gas" class="value-small" x="38" y="40">—</text>
@@ -579,7 +579,7 @@ class LovelaceBoilerCard extends HTMLElement {
             <!-- Burner flame, physically inside the combustion chamber -->
             <g id="obj-flame" class="flame-off" data-entity-key="burner_state" tabindex="0">
               <path class="flame-shape" transform="translate(229 65) scale(1.15)" d="M143.6,171.7c0.4,4.9,3.7,11.8,12.3,10c-3.6-1-6.5-4.3-7.7-10.4c0.8,0.2,1.9,0.9,2.3,1.1c-0.2-0.9,0.1-3.4,1.4-6.4c1.5,7.7,2.6,9,4.1,9.3c-1.4-3.7-1.3-6.9-0.1-9.4c0.6,2.4,1.8,4.2,2.9,5.4c1.8-2.2,2.6-5.1,1.8-11.4c4,5.3,3.7,8.6,2.4,10.6c1.1-0.3,2.7-1.8,3.8-4.4c1,1.2,0.8,3.4-0.1,5.9c0.6-0.2,1.6-0.6,2.2-1.1c-1,7.3-5.2,8.2-9.2,10.4c5.7,2.3,15.1-1.1,16.2-8.8c0.3-1.3-0.1-3.2-0.4-4.7c-0.6,1-0.9,2.3-1.8,2.8c-0.2-1.4,0.2-2.6,0.8-3.8c1.1-4.3,0.4-7.9-1.9-10.7c-0.4,2.1-0.9,3.9-1.9,4.4c-1.1-6.5-3.1-11-5.5-12.2c0.2,1.9,0.1,3.5-0.6,4.9c-2-7.2-5.5-6.7-6.5-13.2c-1,0.7-1.2,2.3-1.4,3.7c0,2.9,0.2,5.7-1,7.1c-1.1-2.1-2.1-3.8-3.9-4c1.3,2.7,0.8,7.4-1.1,12.5c-0.7-1.3-1.9-3.9-3.6-4.3c0.4,3.4-0.1,7.3-0.9,10.9c-0.5-0.8-1.5-1.7-2.6-2.3C144.8,166.8,143.1,168.2,143.6,171.7z M159.2,149.8c0.2,2.7,0,5.5-0.8,6.9C158.3,154.1,158,152.6,159.2,149.8z"></path>
-              <text id="txt-burner-state" class="state-text" x="412" y="296" text-anchor="middle">—</text>
+              <text id="txt-burner-state" class="state-text" x="412" y="300" text-anchor="middle">—</text>
             </g>
 
             <!-- Optional boiler return temperature: only rendered when configured -->
@@ -590,12 +590,11 @@ class LovelaceBoilerCard extends HTMLElement {
               <text id="txt-boiler-return" class="value-small" x="40" y="39">—</text>
             </g>
 
-            <!-- Common boiler manifold -->
-            <!-- Common manifold; small gaps are intentional where hot/cold lines cross -->
-            <path class="hot" d="M505 238 H548 M562 238 H565 V175 H635"></path>
-            <path class="hot" d="M565 238 V350 H635"></path>
-            <path class="cold" d="M505 390 H555 V225 H558 M572 225 H635"></path>
-            <path class="cold" d="M555 390 V465 H635"></path>
+            <!-- Simplified supply / return manifolds -->
+            <path class="hot" d="M505 238 H585 V175 H635"></path>
+            <path class="hot" d="M585 238 V350 H635"></path>
+            <path class="cold" d="M505 390 H545 V225 H635"></path>
+            <path class="cold" d="M545 390 V465 H635"></path>
 
             <!-- RADIATOR LOOP -->
             <g id="obj-heating-pump" class="pump-off" data-entity-key="heating_pump" tabindex="0" transform="translate(655 175)">
@@ -629,7 +628,7 @@ class LovelaceBoilerCard extends HTMLElement {
 
             <!-- Wider house roof / radiator -->
             <path d="M865 150 L1015 45 L1165 150 V285" fill="none" stroke="var(--bc-metal-light)" stroke-width="14"></path>
-            <g data-entity-key="room_temp" tabindex="0" transform="translate(950 110)">
+            <g data-entity-key="room_temp" tabindex="0" transform="translate(944 108)">
               <rect class="pill-bg" width="170" height="38" rx="7"></rect>
               <path class="pill-icon" d="M7 20l14-12 14 12h-4v12H11V20H7zm9 10h10V19H16v11z"></path>
               <text id="txt-room-temp" class="value-small" x="43" y="24">—</text>
@@ -650,11 +649,11 @@ class LovelaceBoilerCard extends HTMLElement {
               <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
               <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
             </g>
-            <path class="hot" d="M683 350 H760 V390 H830"></path>
-            <path class="cold" d="M830 465 H760 V465 H635"></path>
+            <path class="hot" d="M683 350 H790 V390 H830"></path>
+            <path class="cold" d="M830 465 H545"></path>
             <polygon class="arrow-hot" points="716,343 730,350 716,357"></polygon>
-            <polygon class="arrow-hot" points="790,383 804,390 790,397"></polygon>
-            <polygon class="arrow-cold" points="724,458 710,465 724,472"></polygon>
+            <polygon class="arrow-hot" points="778,383 792,390 778,397"></polygon>
+            <polygon class="arrow-cold" points="690,458 676,465 690,472"></polygon>
 
             <!-- DHW tank -->
             <g>
@@ -677,23 +676,23 @@ class LovelaceBoilerCard extends HTMLElement {
             </g>
 
             <!-- DHW temperatures: top / middle + target / bottom -->
-            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1042 304)">
-              <text id="label-top" class="small-label" x="0" y="10">Haut</text>
+            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1052 300)">
+              <text id="label-top" class="small-label" x="0" y="8">Haut</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
               <text id="txt-dhw-top" class="value-small" x="39" y="41">—</text>
             </g>
 
-            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1042 378)">
-              <text id="label-middle" class="small-label" x="0" y="10">Milieu</text>
+            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1052 374)">
+              <text id="label-middle" class="small-label" x="0" y="8">Milieu</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="52" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
               <text id="txt-dhw-middle" class="value-small" x="39" y="39">—</text>
               <text id="txt-dhw-target" class="target" x="39" y="57">—</text>
             </g>
 
-            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1042 458)">
-              <text id="label-bottom" class="small-label" x="0" y="10">Bas</text>
+            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1052 454)">
+              <text id="label-bottom" class="small-label" x="0" y="8">Bas</text>
               <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
               <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
               <text id="txt-dhw-bottom" class="value-small" x="39" y="41">—</text>
