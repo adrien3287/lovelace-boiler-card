@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0
+
+- Removed the large section titles from the SVG (`Fioul`, `Chaudière`, `Circuit chauffage`, `Eau chaude`).
+- Repositioned the burner flame inside the boiler combustion chamber.
+- Added native mappings for `input_select.statut_chaudiere`: `Arrêt`, `Veille`, `Préchauffage`, `Démarrage`, `Brûleur actif`.
+- Widened the house roof.
+- Reworked the DHW tank: the boiler heat-exchanger coil is now in the lower half of the tank and connected to the DHW primary flow/return pipes.
+- Replaced the electric-heater coil drawing with a horizontal immersion element entering from the left, connected to a lightning-symbol control box.
+- Added native mappings for the electric-heater selector: `Arrêt` = grey, `Veille` = green, `Chauffe` = red.
+- Added optional boiler-return temperature. Its badge is completely hidden unless an entity is configured.
+- Added a flue/chimney and optional flue-gas temperature. Its badge is completely hidden unless an entity is configured.
+
 ## 0.1.0
 
 - Initial `lovelace-boiler-card` release.
