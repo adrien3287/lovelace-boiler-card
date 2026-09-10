@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.7
+- Oil tank fill height is now driven by `sensor.hauteur_fioul_pourcent` instead of the displayed volume percentage.
+- Clicking the oil tank now opens `sensor.hauteur_fioul_pourcent`.
+- The displayed oil percentage and volume remain unchanged.
+
+## 0.6.6
+- Fixed the oil tank visual fill so it follows `oil_level` dynamically.
+
 ## 0.6.5
 - Final value-layout pass after one-by-one review.
 - Oil badge: moved up, centered content, gauge icon, percent and liters together.
