@@ -34,9 +34,8 @@
               <path d="M38 349 H222 M38 452 H222" stroke="#b37e19" stroke-width="5" opacity=".9"></path>
               <rect x="105" y="258" width="49" height="20" rx="4" fill="#858585"></rect>
               <path d="M72 534 l-12 25 h31 l10-25 M188 534 l12 25 h-31 l-10-25" fill="none" stroke="#a6a6a6" stroke-width="7"></path>
-              <path d="M128 264 V518 M128 264 H194 Q202 264 202 274 V400 Q202 410 212 410 H302" fill="none" stroke="#ffc000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M128 264 V518 M128 264 H264 V410 H302" fill="none" stroke="#ffc000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
               <path d="M120 518 H136" stroke="#ffc000" stroke-width="6" stroke-linecap="round"></path>
-              <circle cx="226" cy="410" r="5" fill="#ffc000"></circle>
             </g>
 
             <g id="obj-boiler-body" class="boiler-normal" data-entity-key="boiler_temp" tabindex="0">

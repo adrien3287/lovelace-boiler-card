@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+- Adjusted the oil suction pipe to match the approved layout: centered dip tube inside the tank, external drop centered in the gap between tank and boiler, then horizontal run into the boiler.
+- Removed the extra yellow junction dot so the fuel line matches the approved visual baseline.
+
 ## 0.5.0
 - Replaced the card SVG with the approved no-text layout.
 - Deep oil pickup tube and oil-tank geometry.
