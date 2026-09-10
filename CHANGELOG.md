@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.4
+- Shifted DHW tank temperature boxes to the right by about 40% of their width.
+- Applied the same right shift to room and outside temperature boxes.
+- Moved the flue-gas box upward by roughly two box heights.
+- Merged oil percentage and oil volume into the same box and moved it lower.
+- Increased setpoint text size so it matches the main value text size.
+
 ## 0.6.3
 - Added all main values directly onto the validated SVG drawing.
 - Removed visible labels such as Haut, Milieu, Bas and Extérieur from overlay boxes.

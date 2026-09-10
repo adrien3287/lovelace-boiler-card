@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.6.3";
+const BOILER_CARD_VERSION = "0.6.4";
 
 const DEFAULTS = {
   title: "",
@@ -467,7 +467,7 @@ class LovelaceBoilerCard extends HTMLElement {
         .section-label { fill: var(--bc-muted, #a9a9a9); font-size: 18px; font-weight: 500; }
                 .value { fill: var(--bc-text, #e8e8e8); font-size: 26px; font-weight: 600; }
         .value-small { fill: var(--bc-text, #e8e8e8); font-size: 22px; font-weight: 600; }
-        .target { fill: #ff3232; font-size: 18px; font-weight: 700; }
+        .target { fill: #ff3232; font-size: 26px; font-weight: 600; }
         .state-text { fill: var(--bc-muted, #a9a9a9); font-size: 11px; }
 
         .hot { stroke: var(--bc-hot); fill: none; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
@@ -590,20 +590,18 @@ class LovelaceBoilerCard extends HTMLElement {
   </g>
 <!-- Dynamic value overlays -->
 <g id="box-oil-level" data-entity-key="oil_level" tabindex="0">
-  <rect class="pill-bg" x="76" y="114" width="214" height="56" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(94 126)">
+  <rect class="pill-bg" x="76" y="338" width="214" height="88" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(94 350)">
     <path class="icon-line" d="M4 16a8 8 0 1 1 16 0"/>
     <path class="icon-line" d="M12 16l4-5"/>
     <path class="icon-line" d="M7 13l-1.7-1.7M17 13l1.7-1.7M12 8V6"/>
   </g>
-  <text id="txt-oil-level" x="194" y="152" class="value" text-anchor="middle">—</text>
-  <rect class="hotspot" x="73" y="111" width="220" height="62" rx="12" ry="12"/>
+  <text id="txt-oil-level" x="194" y="374" class="value" text-anchor="middle">—</text>
+  <text id="txt-oil-volume" x="194" y="405" class="value-small" text-anchor="middle">—</text>
+  <rect class="hotspot" x="73" y="335" width="220" height="94" rx="12" ry="12"/>
 </g>
 
-<g id="box-oil-volume" data-entity-key="oil_volume" tabindex="0">
-  <text id="txt-oil-volume" x="183" y="836" class="value-center" text-anchor="middle">—</text>
-  <rect class="hotspot" x="115" y="808" width="136" height="36" rx="8" ry="8"/>
-</g>
+<g id="box-oil-volume" data-entity-key="oil_volume" tabindex="0" style="display:none"></g>
 
 <g id="box-boiler-temp" data-entity-key="boiler_temp" tabindex="0">
   <rect class="pill-bg" x="464" y="465" width="196" height="58" rx="12" ry="12"/>
@@ -630,30 +628,30 @@ class LovelaceBoilerCard extends HTMLElement {
 </g>
 
 <g id="optional-flue-gas" style="display:none" data-entity-key="flue_gas_temp" tabindex="0">
-  <rect class="pill-bg" x="650" y="112" width="180" height="56" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(666 124)">
+  <rect class="pill-bg" x="650" y="0" width="180" height="56" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(666 12)">
     <path class="icon-line" d="M7 20c2.8-1.8 1.4-4.8 3.1-6.4 1.6-1.6 3.1-2.7 2.4-5.6"/>
     <path class="icon-line" d="M13 20c2.8-1.8 1.4-4.8 3.1-6.4 1.6-1.6 3.1-2.7 2.4-5.6"/>
     <path class="icon-line" d="M4.5 22h15"/>
   </g>
-  <text id="txt-flue-gas" x="751" y="150" class="value" text-anchor="middle">—</text>
-  <rect class="hotspot" x="647" y="109" width="186" height="62" rx="12" ry="12"/>
+  <text id="txt-flue-gas" x="751" y="38" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="647" y="0" width="186" height="62" rx="12" ry="12"/>
 </g>
 
 <g id="box-room-temp" data-entity-key="room_temp" tabindex="0">
-  <rect class="pill-bg" x="888" y="136" width="230" height="58" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(905 148)">
+  <rect class="pill-bg" x="964" y="136" width="230" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(981 148)">
     <path class="icon-line" d="M4 11.5L12 4l8 7.5v8.5h-5.2v-6H9.2v6H4z"/>
     <rect x="11" y="8" width="2.6" height="6.8" rx="1.3" class="icon-fill"/>
     <circle cx="12.3" cy="17.6" r="2.6" class="icon-fill"/>
   </g>
-  <text id="txt-room-temp" x="1024" y="175" class="value" text-anchor="middle">—</text>
-  <rect class="hotspot" x="885" y="133" width="236" height="64" rx="12" ry="12"/>
+  <text id="txt-room-temp" x="1100" y="175" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="961" y="133" width="236" height="64" rx="12" ry="12"/>
 </g>
 
 <g id="box-outside-temp" data-entity-key="outside_temp" tabindex="0">
-  <rect class="pill-bg" x="1385" y="122" width="212" height="58" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(1401 134)">
+  <rect class="pill-bg" x="1461" y="122" width="212" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1477 134)">
     <circle cx="7" cy="7" r="4.2" class="icon-line"/>
     <path class="icon-line" d="M7 .8V-1.8M7 15.2v2.6M.8 7H-1.8M15.2 7h2.6M2.2 2.2L.3.3M11.8 11.8l1.9 1.9M11.8 2.2l1.9-1.9M2.2 11.8L.3 13.7"/>
     <rect x="17.5" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
@@ -661,8 +659,8 @@ class LovelaceBoilerCard extends HTMLElement {
     <circle cx="20.7" cy="18.2" r="4" class="icon-fill"/>
     <circle cx="20.7" cy="18.2" r="5.2" class="icon-line"/>
   </g>
-  <text id="txt-outside-temp" x="1497" y="161" class="value" text-anchor="middle">—</text>
-  <rect class="hotspot" x="1382" y="119" width="218" height="64" rx="12" ry="12"/>
+  <text id="txt-outside-temp" x="1573" y="161" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1458" y="119" width="218" height="64" rx="12" ry="12"/>
 </g>
 
 <g id="box-heating-flow" data-entity-key="heating_flow_temp" tabindex="0">
@@ -686,47 +684,47 @@ class LovelaceBoilerCard extends HTMLElement {
 </g>
 
 <g id="box-dhw-top-temp" data-entity-key="dhw_top_temp" tabindex="0">
-  <rect class="pill-bg" x="1392" y="538" width="190" height="58" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(1408 551)">
+  <rect class="pill-bg" x="1468" y="538" width="190" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1484 551)">
     <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
     <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
   </g>
-  <text id="txt-dhw-top" x="1502" y="577" class="value" text-anchor="middle">—</text>
-  <rect class="hotspot" x="1389" y="535" width="196" height="64" rx="12" ry="12"/>
+  <text id="txt-dhw-top" x="1578" y="577" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1465" y="535" width="196" height="64" rx="12" ry="12"/>
 </g>
 
 <g id="box-dhw-middle-temp" data-entity-key="dhw_middle_temp" tabindex="0">
-  <rect class="pill-bg" x="1392" y="646" width="190" height="82" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(1408 659)">
+  <rect class="pill-bg" x="1468" y="646" width="190" height="82" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1484 659)">
     <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
     <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
   </g>
-  <text id="txt-dhw-middle" x="1502" y="681" class="value" text-anchor="middle">—</text>
-  <g class="icon-target" transform="translate(1414 690)">
+  <text id="txt-dhw-middle" x="1578" y="681" class="value" text-anchor="middle">—</text>
+  <g class="icon-target" transform="translate(1490 690)">
     <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
     <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
     <path class="icon-line" d="M19 10.5l2.6 2.6 4.8-5"/>
   </g>
-  <text id="txt-dhw-target" x="1502" y="718" class="target" text-anchor="middle">—</text>
-  <rect class="hotspot" x="1389" y="643" width="196" height="88" rx="12" ry="12"/>
+  <text id="txt-dhw-target" x="1578" y="717" class="target" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1465" y="643" width="196" height="88" rx="12" ry="12"/>
 </g>
 
 <g id="box-dhw-bottom-temp" data-entity-key="dhw_bottom_temp" tabindex="0">
-  <rect class="pill-bg" x="1392" y="760" width="190" height="58" rx="12" ry="12"/>
-  <g class="icon-muted" transform="translate(1408 773)">
+  <rect class="pill-bg" x="1468" y="760" width="190" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1484 773)">
     <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
     <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
     <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
   </g>
-  <text id="txt-dhw-bottom" x="1502" y="799" class="value" text-anchor="middle">—</text>
-  <rect class="hotspot" x="1389" y="757" width="196" height="64" rx="12" ry="12"/>
+  <text id="txt-dhw-bottom" x="1578" y="799" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1465" y="757" width="196" height="64" rx="12" ry="12"/>
 </g>
 
 <!-- Hidden placeholders kept for compatibility / future use -->
