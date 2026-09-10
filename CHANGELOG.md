@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1
+- Added dynamic boiler status colour overlay on the validated baseline: grey / green / yellow / orange / red.
+- Added dynamic electric-heater colour overlay: grey / green / red.
+- Preserved the approved base geometry pixel-for-pixel; only status pixels are recoloured.
+- Default boiler mappings now match `Arrêt`, `Veille`, `Préchauffage`, `Démarrage`, and `Brûleur actif`/`Marche`.
+
 ## 0.6.0
 - Rebuilt the base SVG from the approved drawing for near pixel-perfect visual fidelity.
 - Updated the HACS package so the card now uses this approved baseline image inside the SVG.
