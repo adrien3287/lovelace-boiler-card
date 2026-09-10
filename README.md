@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.5.1**
+**Current version: 0.5.2**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.5.1
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.5.2
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload or temporarily add the version query string shown above.
@@ -164,4 +164,4 @@ By default, `Veille` colours the boiler outline green. Override with `boiler_sta
 
 ## 0.5 visual baseline
 
-Version 0.5.1 uses the approved no-text SVG layout as the visual baseline. Values and labels can now be reintroduced incrementally.
+Version 0.5.2 uses the approved no-text SVG layout as the visual baseline. Values and labels can now be reintroduced incrementally.
