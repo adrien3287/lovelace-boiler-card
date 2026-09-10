@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.5
+- Final value-layout pass after one-by-one review.
+- Oil badge: moved up, centered content, gauge icon, percent and liters together.
+- Flue-gas badge: moved down one badge height.
+- Room/outside badges: kept at approved positions.
+- Heating flow/setpoint: aligned with DHW badge column and moved down ~110% of its height.
+- DHW badges aligned to top/center/bottom of rounded tank body.
+- Boiler + return combined into a taller badge wholly inside the lower third of the boiler, with thermometer-chevron-up/down icons.
+- Flame nudged right with an erase mask to avoid a ghost of the original raster flame.
+- Unified value sizes and exact one-decimal temperature formatting.
+
 ## 0.6.4
 - Shifted DHW tank temperature boxes to the right by about 40% of their width.
 - Applied the same right shift to room and outside temperature boxes.
