@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.8
+- Fixed the oil tank suction tube position: moved slightly to the right and lower inside the tank.
+- Tightened the oil fill shape on the right edge to eliminate the last-pixel height glitch.
+
 ## 0.6.7
 - Oil tank fill height is now driven by `sensor.hauteur_fioul_pourcent` instead of the displayed volume percentage.
 - Clicking the oil tank now opens `sensor.hauteur_fioul_pourcent`.
