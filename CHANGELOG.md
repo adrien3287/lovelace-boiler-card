@@ -1,3 +1,10 @@
+## 0.6.17
+
+- Based on the v0.6.15 empty-tank rendering approach.
+- Fills the oil tank interior completely with a static light grey.
+- Removes dynamic oil-level rendering from the tank.
+- Keeps the original tank geometry and suction tube visible.
+
 ## 0.6.16
 
 - Added a new dedicated oil-level renderer instead of reusing the previous fuel script.

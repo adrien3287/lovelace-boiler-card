@@ -1,12 +1,12 @@
 # Lovelace Boiler Card
 
-**Current version: 0.6.16**
+**Current version: 0.6.17**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
 ## Features
 
-- heating-oil tank with live fill level and optional volume,
+- heating-oil tank with static full grey interior in this release; percentage and liters remain displayed,
 - oil boiler temperature,
 - colour-coded burner flame located inside the boiler,
 - flue/chimney with optional flue-gas temperature,
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.6.16.js
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.6.17.js
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload.
@@ -223,3 +223,10 @@ Starts from the exact v0.6.9 runtime. Dynamic fuel rendering is disabled, and a 
 - keeps tank click on `oil_height_percent`,
 - draws the liquid as a fresh vector path shaped to the tank sides and rounded bottom,
 - keeps the v0.6.9 suction tube above the liquid fill.
+
+## v0.6.17 static grey tank
+
+- starts from the v0.6.15 empty-tank rendering approach,
+- fills the tank interior completely with a static light grey,
+- draws no dynamic oil level in the tank,
+- keeps the original tank geometry and suction tube visible.
