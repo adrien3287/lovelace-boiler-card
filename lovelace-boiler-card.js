@@ -537,6 +537,9 @@ class LovelaceBoilerCard extends HTMLElement {
     <clipPath id="oil-tank-clip">
       <path d="M66 462 V452 C66 423 91 401 123 401 H247 C279 401 304 423 304 454 V678 C304 713 279 739 247 739 H123 C91 739 66 713 66 680 Z"/>
     </clipPath>
+    <clipPath id="oil-fill-clip">
+      <path d="M66 462 V452 C66 423 91 401 123 401 H239 C268 401 293 423 293 454 V678 C293 713 268 739 239 739 H123 C91 739 66 713 66 680 Z"/>
+    </clipPath>
   </defs>
   <style>
     .hotspot { fill: transparent; stroke: none; }
@@ -556,7 +559,7 @@ class LovelaceBoilerCard extends HTMLElement {
 
   <g id="obj-oil-level" data-entity-key="oil_height_percent" tabindex="0">
     <rect x="66" y="463" width="240" height="276" fill="#1a1a1a" clip-path="url(#oil-tank-clip)" pointer-events="none"/>
-    <rect id="oil-fill" class="oil-fill" x="66" y="570" width="232" height="169" clip-path="url(#oil-tank-clip)" pointer-events="none"/>
+    <rect id="oil-fill" class="oil-fill" x="66" y="570" width="232" height="169" clip-path="url(#oil-fill-clip)" pointer-events="none"/>
     <path d="M190 401 V748 M179 748 H201" stroke="var(--bc-oil, #ffc000)" stroke-width="9" stroke-linecap="round" fill="none" pointer-events="none"/>
     <rect class="hotspot" x="50" y="382" width="272" height="370" rx="70" ry="70"/>
   </g>

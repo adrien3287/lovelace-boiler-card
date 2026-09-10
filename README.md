@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.6.9**
+**Current version: 0.6.10**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.6.9
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.6.10
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload or temporarily add the version query string shown above.
