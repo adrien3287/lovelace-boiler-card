@@ -36,8 +36,8 @@
 
   <g id="obj-oil-level" data-entity-key="oil_height_percent" tabindex="0">
     <rect x="66" y="463" width="240" height="276" fill="#1a1a1a" clip-path="url(#oil-tank-clip)" pointer-events="none"/>
-    <rect id="oil-fill" class="oil-fill" x="66" y="570" width="238" height="169" clip-path="url(#oil-tank-clip)" pointer-events="none"/>
-    <path d="M194 389 V736 M183 736 H205" stroke="var(--bc-oil, #ffc000)" stroke-width="9" stroke-linecap="round" fill="none" pointer-events="none"/>
+    <rect id="oil-fill" class="oil-fill" x="66" y="570" width="232" height="169" clip-path="url(#oil-tank-clip)" pointer-events="none"/>
+    <path d="M190 401 V748 M179 748 H201" stroke="var(--bc-oil, #ffc000)" stroke-width="9" stroke-linecap="round" fill="none" pointer-events="none"/>
     <rect class="hotspot" x="50" y="382" width="272" height="370" rx="70" ry="70"/>
   </g>
 
