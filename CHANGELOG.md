@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0
+- Replaced the card SVG with the approved no-text layout.
+- Deep oil pickup tube and oil-tank geometry.
+- Boiler, oil tank and DHW cylinder aligned on one floor line.
+- Straight chimney centered above the boiler.
+- Radiator pipes leave from the boiler side.
+- Both pumps share the same vertical axis.
+- DHW hot/return pipes align with the heat-exchanger coil inlet/outlet.
+- Immersion heater retained at the upper-left of the cylinder.
+- Updated hot/cold/oil palette.
+
+
 ## 0.4.2
 - Raised the main roof line so it sits higher above the installation.
 - Restored the DHW top / middle / bottom temperature badges closer to the 0.3.2 layout.

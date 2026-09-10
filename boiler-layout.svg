@@ -1,0 +1,117 @@
+<svg viewBox="0 0 1200 600" role="img" aria-label="Oil boiler installation" preserveAspectRatio="xMidYMid meet"><style>
+:root{--hot:#ff263e;--cold:#2498e8;--oil:#ffc000;--metal:#777;--text:#ddd;--bg:#202020}
+.hot{stroke:var(--hot);fill:none;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+.cold{stroke:var(--cold);fill:none;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+.arrow-hot,.arrow-cold{fill:#252525}.boiler-outline{stroke:var(--metal);fill:none}.boiler-normal{color:var(--metal)}
+.pump-off{color:#d7d7d7}.pump-shape{fill:currentColor}.flame-burning{color:#e53935}.flame-shape{fill:currentColor}
+.heater-disabled{color:#969696}.heater-box{stroke:currentColor;fill:var(--bg);stroke-width:5}.heater-bolt{fill:currentColor}.heater-tube{stroke:currentColor;fill:none;stroke-width:8;stroke-linecap:round}
+</style>
+            <defs>
+              <clipPath id="oil-tank-clip">
+                <rect x="42" y="286" width="176" height="242" rx="42" ry="42"></rect>
+              </clipPath>
+              <clipPath id="dhw-tank-clip">
+                <path d="M835 382 C835 362 876 350 927 350 C978 350 1019 362 1019 382 V500 C1019 521 978 534 927 534 C876 534 835 521 835 500 Z"></path>
+              </clipPath>
+              <linearGradient id="dhw-fill-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#d24f58"></stop>
+                <stop offset="62%" stop-color="#a94755"></stop>
+                <stop offset="76%" stop-color="#6d5470"></stop>
+                <stop offset="100%" stop-color="#2585c8"></stop>
+              </linearGradient>
+              <linearGradient id="coil-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#ff6d76"></stop>
+                <stop offset="58%" stop-color="#da78b1"></stop>
+                <stop offset="100%" stop-color="#74a7ee"></stop>
+              </linearGradient>
+            </defs>
+
+            <path d="M282 234 L742 18 L1172 232 L1190 224 L1190 248 L1170 238 V566" fill="none" stroke="#eeeeee" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+
+            <g data-entity-key="oil_level" tabindex="0">
+              <rect id="oil-fill" x="42" y="286" width="176" height="0" fill="#d79b18" opacity=".90" clip-path="url(#oil-tank-clip)"></rect>
+              <rect x="38" y="278" width="184" height="256" rx="46" ry="46" fill="none" stroke="#a6a6a6" stroke-width="8"></rect>
+              <path d="M38 349 H222 M38 452 H222" stroke="#b37e19" stroke-width="5" opacity=".9"></path>
+              <rect x="105" y="258" width="49" height="20" rx="4" fill="#858585"></rect>
+              <path d="M72 534 l-12 25 h31 l10-25 M188 534 l12 25 h-31 l-10-25" fill="none" stroke="#a6a6a6" stroke-width="7"></path>
+              <path d="M128 264 V518 M128 264 H194 Q202 264 202 274 V400 Q202 410 212 410 H302" fill="none" stroke="#ffc000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M120 518 H136" stroke="#ffc000" stroke-width="6" stroke-linecap="round"></path>
+              <circle cx="226" cy="410" r="5" fill="#ffc000"></circle>
+            </g>
+
+            <g id="obj-boiler-body" class="boiler-normal" data-entity-key="boiler_temp" tabindex="0">
+              <rect class="boiler-outline" x="305" y="308" width="180" height="226" rx="5" stroke-width="7"></rect>
+              <line class="boiler-outline" x1="305" y1="438" x2="485" y2="438" stroke-width="6"></line>
+              <path class="boiler-outline" d="M321 534 l-9 25 h28 l7-25 M469 534 l9 25 h-28 l-7-25" stroke-width="6"></path>
+            </g>
+
+            <g aria-label="Flue chimney">
+              <rect x="382" y="82" width="26" height="226" fill="#777777" stroke="#a9a9a9" stroke-width="4"></rect>
+              <rect x="374" y="70" width="42" height="13" rx="2" fill="#c9c9c9"></rect>
+              <rect x="377" y="298" width="36" height="11" fill="#666666"></rect>
+              <path d="M388 61 C379 49 393 42 385 31 M401 61 C392 49 406 42 398 31" stroke="#bfbfbf" stroke-width="4" fill="none" stroke-linecap="round"></path>
+            </g>
+
+            <g id="obj-flame" class="flame-burning" data-entity-key="burner_state" tabindex="0" transform="translate(392 392) scale(1.35)">
+              <path class="flame-shape" d="M-18 10 C-27 -7 -17 -17 -14 -29 C-6 -18 -3 -10 -3 -4 C3 -10 7 -20 4 -31 C17 -20 24 -6 17 9 C12 19 4 26 -6 26 C-16 26 -22 20 -25 13 C-28 6 -26 1 -23 -5 C-22 2 -21 7 -18 10 Z M-7 20 C-13 12 -11 5 -5 -3 C-5 4 -1 7 1 11 C4 7 7 3 6 -4 C12 3 13 11 9 17 C6 22 1 25 -5 25 C-6 25 -7 23 -7 20 Z"></path>
+            </g>
+
+            <path class="hot" d="M485 334 H560 V278 H1018" fill="none"></path>
+            <path class="cold" d="M1018 326 H485" fill="none"></path>
+            <polygon class="arrow-hot" points="582,271 596,278 582,285"></polygon>
+            <polygon class="arrow-hot" points="822,271 836,278 822,285"></polygon>
+            <polygon class="arrow-cold" points="832,319 818,326 832,333"></polygon>
+            <polygon class="arrow-cold" points="590,319 576,326 590,333"></polygon>
+
+            <g id="obj-heating-pump" class="pump-off" data-entity-key="heating_pump" tabindex="0" transform="translate(690 278)">
+              <rect class="pump-shape" x="-28" y="-4" width="15" height="8" rx="1"></rect>
+              <rect class="pump-shape" x="13" y="-4" width="15" height="8" rx="1"></rect>
+              <circle cx="0" cy="0" r="19" fill="var(--bg)" stroke="currentColor" stroke-width="6"></circle>
+              <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
+              <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
+              <rect x="-13" y="-26" width="26" height="5" rx="1" fill="currentColor"></rect>
+              <rect x="-13" y="21" width="26" height="5" rx="1" fill="currentColor"></rect>
+            </g>
+
+            <g fill="#a9a9a9">
+              <rect x="1022" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1040" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1058" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1076" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1094" y="250" width="14" height="87" rx="7"></rect>
+              <path d="M1036 237 C1026 226 1039 220 1032 209 M1055 237 C1045 226 1058 220 1051 209 M1074 237 C1064 226 1077 220 1070 209" stroke="#d0d0d0" stroke-width="4" fill="none" stroke-linecap="round"></path>
+            </g>
+
+            <path class="hot" d="M485 454 H835" fill="none"></path>
+            <path class="cold" d="M835 522 H535 Q525 522 525 512 V492 Q525 482 515 482 H485" fill="none"></path>
+            <polygon class="arrow-hot" points="577,447 591,454 577,461"></polygon>
+            <polygon class="arrow-hot" points="777,447 791,454 777,461"></polygon>
+            <polygon class="arrow-cold" points="756,515 742,522 756,529"></polygon>
+            <polygon class="arrow-cold" points="580,515 566,522 580,529"></polygon>
+
+            <g id="obj-dhw-pump" class="pump-off" data-entity-key="dhw_pump" tabindex="0" transform="translate(690 454)">
+              <rect class="pump-shape" x="-28" y="-4" width="15" height="8" rx="1"></rect>
+              <rect class="pump-shape" x="13" y="-4" width="15" height="8" rx="1"></rect>
+              <circle cx="0" cy="0" r="19" fill="var(--bg)" stroke="currentColor" stroke-width="6"></circle>
+              <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
+              <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
+              <rect x="-13" y="-26" width="26" height="5" rx="1" fill="currentColor"></rect>
+              <rect x="-13" y="21" width="26" height="5" rx="1" fill="currentColor"></rect>
+            </g>
+
+            <g>
+              <rect x="835" y="350" width="184" height="184" fill="url(#dhw-fill-gradient)" clip-path="url(#dhw-tank-clip)"></rect>
+              <path d="M835 382 C835 362 876 350 927 350 C978 350 1019 362 1019 382 V500 C1019 521 978 534 927 534 C876 534 835 521 835 500 Z" fill="none" stroke="#a6a6a6" stroke-width="8"></path>
+              <path d="M835 421 H1019 M835 493 H1019" stroke="#565656" stroke-width="4"></path>
+              <path d="M864 532 l-9 27 h27 l8-25 M990 532 l9 27 h-27 l-8-25" stroke="#a6a6a6" stroke-width="6" fill="none"></path>
+              <path d="M835 454 H950 C991 454 991 468 950 468 H886 C850 468 850 482 886 482 H950 C991 482 991 496 950 496 H886 C850 496 850 510 886 510 H950 C991 510 991 522 950 522 H835" fill="none" stroke="url(#coil-gradient)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+
+            <g id="obj-electric-heater" class="heater-disabled" data-entity-key="electric_heater_state" tabindex="0">
+              <rect class="heater-box" x="790" y="381" width="42" height="42" rx="5"></rect>
+              <path class="heater-bolt" d="M808 385 H818 L813 397 H821 L807 417 L811 403 H803 Z"></path>
+              <path class="heater-tube" d="M832 402 H912"></path>
+            </g>
+
+            <path d="M26 569 H1172" stroke="#5c5c5c" stroke-width="3" opacity=".65"></path>
+          </svg>

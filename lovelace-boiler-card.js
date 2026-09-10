@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.4.2";
+const BOILER_CARD_VERSION = "0.5.0";
 
 const DEFAULTS = {
   title: "",
@@ -323,8 +323,8 @@ class LovelaceBoilerCard extends HTMLElement {
   _updateOilFill() {
     const raw = Number(this._state("oil_level"));
     const pct = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 0;
-    const tankY = 126;
-    const tankH = 266;
+    const tankY = 286;
+    const tankH = 242;
     const fillH = (tankH * pct) / 100;
     const fill = this.shadowRoot.getElementById("oil-fill");
     if (fill) {
@@ -409,10 +409,10 @@ class LovelaceBoilerCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
-          --bc-hot: #c86464;
-          --bc-cold: #6e8ca0;
+          --bc-hot: #ff263e;
+          --bc-cold: #2498e8;
           --bc-pipe-neutral: #8b8b8b;
-          --bc-oil: #b18a38;
+          --bc-oil: #ffc000;
           --bc-metal: #777;
           --bc-metal-dark: #4f4f4f;
           --bc-metal-light: #bdbdbd;
@@ -421,7 +421,7 @@ class LovelaceBoilerCard extends HTMLElement {
           --bc-pill-bg: var(--card-background-color, #202020);
           --bc-pill-border: #a0a0a0;
           --bc-pump-on: #87ad27;
-          --bc-pump-off: #bbbbbb;
+          --bc-pump-off: #d7d7d7;
           --bc-flame-off: #777777;
           --bc-flame-preheat: #f4d03f;
           --bc-flame-ignition: #f28c28;
@@ -465,8 +465,8 @@ class LovelaceBoilerCard extends HTMLElement {
         .target { fill: #ff3232; font-size: 12px; font-weight: 600; }
         .state-text { fill: var(--bc-muted); font-size: 11px; }
 
-        .hot { stroke: var(--bc-hot); fill: none; stroke-width: 9; stroke-linecap: square; }
-        .cold { stroke: var(--bc-cold); fill: none; stroke-width: 9; stroke-linecap: square; }
+        .hot { stroke: var(--bc-hot); fill: none; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+        .cold { stroke: var(--bc-cold); fill: none; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
         .fuel-line { stroke: var(--bc-oil); fill: none; stroke-width: 5; }
         .metal { stroke: var(--bc-metal); fill: none; }
         .metal-fill { fill: var(--bc-metal); }
@@ -515,187 +515,115 @@ class LovelaceBoilerCard extends HTMLElement {
       <ha-card>
         ${header}
         <div class="wrap">
-          <svg viewBox="0 0 1200 540" role="img" aria-label="Boiler installation overview" preserveAspectRatio="xMidYMid meet">
+          <svg viewBox="0 0 1200 600" role="img" aria-label="Oil boiler installation" preserveAspectRatio="xMidYMid meet">
             <defs>
               <clipPath id="oil-tank-clip">
-                <rect x="43" y="126" width="164" height="266" rx="34" ry="34"></rect>
+                <rect x="42" y="286" width="176" height="242" rx="42" ry="42"></rect>
               </clipPath>
               <clipPath id="dhw-tank-clip">
-                <path d="M830 330 C830 306 875 292 930 292 C985 292 1030 306 1030 330 V466 C1030 486 986 500 930 500 C874 500 830 486 830 466 Z"></path>
+                <path d="M835 382 C835 362 876 350 927 350 C978 350 1019 362 1019 382 V500 C1019 521 978 534 927 534 C876 534 835 521 835 500 Z"></path>
               </clipPath>
-              <linearGradient id="primary-coil-gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="var(--bc-hot)"></stop>
-                <stop offset="100%" stop-color="var(--bc-cold)"></stop>
+              <linearGradient id="dhw-fill-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#d24f58"></stop>
+                <stop offset="62%" stop-color="#a94755"></stop>
+                <stop offset="76%" stop-color="#6d5470"></stop>
+                <stop offset="100%" stop-color="#2585c8"></stop>
+              </linearGradient>
+              <linearGradient id="coil-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#ff6d76"></stop>
+                <stop offset="58%" stop-color="#da78b1"></stop>
+                <stop offset="100%" stop-color="#74a7ee"></stop>
               </linearGradient>
             </defs>
 
-            <!-- OIL TANK -->
+            <path d="M282 234 L742 18 L1172 232 L1190 224 L1190 248 L1170 238 V566" fill="none" stroke="#eeeeee" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+
             <g data-entity-key="oil_level" tabindex="0">
-              <rect id="oil-fill" class="oil-fill" x="43" y="126" width="164" height="0" clip-path="url(#oil-tank-clip)"></rect>
-              <rect x="40" y="120" width="170" height="278" rx="38" ry="38" fill="none" stroke="var(--bc-metal)" stroke-width="8"></rect>
-              <path d="M40 185 H210 M40 330 H210" stroke="var(--bc-metal)" stroke-width="5" fill="none"></path>
-              <path d="M60 398 l-12 22 h35 l8-22 M190 398 l12 22 h-35 l-8-22" stroke="var(--bc-metal)" stroke-width="6" fill="none"></path>
-              <rect x="95" y="103" width="60" height="18" rx="5" class="dark-fill"></rect>
-              <g transform="translate(54 72)">
-                <rect class="pill-bg" width="143" height="38" rx="7"></rect>
-                <path d="M14 29 A14 14 0 0 1 42 29" stroke="var(--bc-metal-light)" stroke-width="4" fill="none" stroke-linecap="round"></path>
-                <circle cx="28" cy="29" r="3.5" fill="var(--bc-metal-light)"></circle>
-                <path d="M28 29 L36 18" stroke="var(--bc-metal-light)" stroke-width="3.5" stroke-linecap="round"></path>
-                <path d="M17 26l3 1 M21 19l2 2 M28 15v3 M35 19l-2 2 M39 26l-3 1" stroke="var(--bc-metal-light)" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
-                <text id="txt-oil-level" class="value" x="50" y="25">—</text>
-              </g>
-              <text id="txt-oil-volume" class="value-small" x="125" y="446" text-anchor="middle">—</text>
+              <rect id="oil-fill" x="42" y="286" width="176" height="0" fill="#d79b18" opacity=".90" clip-path="url(#oil-tank-clip)"></rect>
+              <rect x="38" y="278" width="184" height="256" rx="46" ry="46" fill="none" stroke="#a6a6a6" stroke-width="8"></rect>
+              <path d="M38 349 H222 M38 452 H222" stroke="#b37e19" stroke-width="5" opacity=".9"></path>
+              <rect x="105" y="258" width="49" height="20" rx="4" fill="#858585"></rect>
+              <path d="M72 534 l-12 25 h31 l10-25 M188 534 l12 25 h-31 l-10-25" fill="none" stroke="#a6a6a6" stroke-width="7"></path>
+              <path d="M128 264 V518 M128 264 H194 Q202 264 202 274 V400 Q202 410 212 410 H302" fill="none" stroke="#ffc000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M120 518 H136" stroke="#ffc000" stroke-width="6" stroke-linecap="round"></path>
+              <circle cx="226" cy="410" r="5" fill="#ffc000"></circle>
             </g>
 
-            <path class="fuel-line" d="M210 280 H322"></path>
-            <circle cx="258" cy="280" r="4" fill="var(--bc-oil)"></circle>
-            <polygon points="287,274 300,280 287,286" fill="var(--bc-oil)"></polygon>
-
-            <!-- OIL BOILER -->
             <g id="obj-boiler-body" class="boiler-normal" data-entity-key="boiler_temp" tabindex="0">
-              <rect class="boiler-outline" x="320" y="145" width="185" height="265" rx="5" stroke-width="8"></rect>
-              <line class="boiler-outline" x1="320" y1="306" x2="505" y2="306" stroke-width="7"></line>
-              <g transform="translate(345 165)">
-                <rect class="pill-bg" width="135" height="42" rx="7"></rect>
-                <path class="pill-icon" d="M18 8h8v17a7 7 0 1 1-8 0V8zm4 3v17l-2 1a4 4 0 1 0 4 0l-2-1V11z"></path>
-                <text id="txt-boiler-temp" class="value" x="48" y="27">—</text>
-              </g>
+              <rect class="boiler-outline" x="305" y="308" width="180" height="226" rx="5" stroke-width="7"></rect>
+              <line class="boiler-outline" x1="305" y1="438" x2="485" y2="438" stroke-width="6"></line>
+              <path class="boiler-outline" d="M321 534 l-9 25 h28 l7-25 M469 534 l9 25 h-28 l-7-25" stroke-width="6"></path>
             </g>
 
-            <!-- Flue / chimney: elbow, vertical stack, cap and smoke -->
             <g aria-label="Flue chimney">
-              <path d="M392 145 V105 H445 V58" stroke="var(--bc-metal)" stroke-width="16" fill="none" stroke-linecap="square" stroke-linejoin="round"></path>
-              <path d="M445 58 V32" stroke="var(--bc-metal-light)" stroke-width="13" fill="none"></path>
-              <path d="M428 30 H462" stroke="var(--bc-metal-light)" stroke-width="7" stroke-linecap="round"></path>
-              <path d="M437 19 C428 10 442 4 434 -5 M449 20 C441 11 455 5 448 -4" stroke="var(--bc-muted)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"></path>
-            </g>
-            <g id="optional-flue-gas" data-entity-key="flue_gas_temp" tabindex="0" transform="translate(486 44)" style="display:none">
-              <text id="label-flue" class="small-label" x="0" y="9">Fumées</text>
-              <rect class="pill-bg" x="0" y="15" width="112" height="37" rx="7"></rect>
-              <path class="pill-icon" d="M12 22h7v14a6 6 0 1 1-7 0V22zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V25z"></path>
-              <text id="txt-flue-gas" class="value-small" x="38" y="40">—</text>
+              <rect x="382" y="82" width="26" height="226" fill="#777777" stroke="#a9a9a9" stroke-width="4"></rect>
+              <rect x="374" y="70" width="42" height="13" rx="2" fill="#c9c9c9"></rect>
+              <rect x="377" y="298" width="36" height="11" fill="#666666"></rect>
+              <path d="M388 61 C379 49 393 42 385 31 M401 61 C392 49 406 42 398 31" stroke="#bfbfbf" stroke-width="4" fill="none" stroke-linecap="round"></path>
             </g>
 
-            <!-- Burner flame, physically inside the combustion chamber -->
-            <g id="obj-flame" class="flame-off" data-entity-key="burner_state" tabindex="0">
-              <path class="flame-shape" transform="translate(229 65) scale(1.15)" d="M143.6,171.7c0.4,4.9,3.7,11.8,12.3,10c-3.6-1-6.5-4.3-7.7-10.4c0.8,0.2,1.9,0.9,2.3,1.1c-0.2-0.9,0.1-3.4,1.4-6.4c1.5,7.7,2.6,9,4.1,9.3c-1.4-3.7-1.3-6.9-0.1-9.4c0.6,2.4,1.8,4.2,2.9,5.4c1.8-2.2,2.6-5.1,1.8-11.4c4,5.3,3.7,8.6,2.4,10.6c1.1-0.3,2.7-1.8,3.8-4.4c1,1.2,0.8,3.4-0.1,5.9c0.6-0.2,1.6-0.6,2.2-1.1c-1,7.3-5.2,8.2-9.2,10.4c5.7,2.3,15.1-1.1,16.2-8.8c0.3-1.3-0.1-3.2-0.4-4.7c-0.6,1-0.9,2.3-1.8,2.8c-0.2-1.4,0.2-2.6,0.8-3.8c1.1-4.3,0.4-7.9-1.9-10.7c-0.4,2.1-0.9,3.9-1.9,4.4c-1.1-6.5-3.1-11-5.5-12.2c0.2,1.9,0.1,3.5-0.6,4.9c-2-7.2-5.5-6.7-6.5-13.2c-1,0.7-1.2,2.3-1.4,3.7c0,2.9,0.2,5.7-1,7.1c-1.1-2.1-2.1-3.8-3.9-4c1.3,2.7,0.8,7.4-1.1,12.5c-0.7-1.3-1.9-3.9-3.6-4.3c0.4,3.4-0.1,7.3-0.9,10.9c-0.5-0.8-1.5-1.7-2.6-2.3C144.8,166.8,143.1,168.2,143.6,171.7z M159.2,149.8c0.2,2.7,0,5.5-0.8,6.9C158.3,154.1,158,152.6,159.2,149.8z"></path>
-              <text id="txt-burner-state" class="state-text" x="412" y="300" text-anchor="middle">—</text>
+            <g id="obj-flame" class="flame-burning" data-entity-key="burner_state" tabindex="0" transform="translate(392 392) scale(1.35)">
+              <path class="flame-shape" d="M-18 10 C-27 -7 -17 -17 -14 -29 C-6 -18 -3 -10 -3 -4 C3 -10 7 -20 4 -31 C17 -20 24 -6 17 9 C12 19 4 26 -6 26 C-16 26 -22 20 -25 13 C-28 6 -26 1 -23 -5 C-22 2 -21 7 -18 10 Z M-7 20 C-13 12 -11 5 -5 -3 C-5 4 -1 7 1 11 C4 7 7 3 6 -4 C12 3 13 11 9 17 C6 22 1 25 -5 25 C-6 25 -7 23 -7 20 Z"></path>
             </g>
 
-            <!-- Optional boiler return temperature: only rendered when configured -->
-            <g id="optional-boiler-return" data-entity-key="boiler_return_temp" tabindex="0" transform="translate(340 335)" style="display:none">
-              <rect class="pill-bg" width="145" height="55" rx="7"></rect>
-              <path class="pill-icon" d="M14 10h8v20a7 7 0 1 1-8 0V10zm4 3v20l-2 1a4 4 0 1 0 4 0l-2-1V13z"></path>
-              <text id="label-return" class="small-label" x="40" y="17">Retour</text>
-              <text id="txt-boiler-return" class="value-small" x="40" y="39">—</text>
-            </g>
+            <path class="hot" d="M485 334 H560 V278 H1018" fill="none"></path>
+            <path class="cold" d="M1018 326 H485" fill="none"></path>
+            <polygon class="arrow-hot" points="582,271 596,278 582,285"></polygon>
+            <polygon class="arrow-hot" points="822,271 836,278 822,285"></polygon>
+            <polygon class="arrow-cold" points="832,319 818,326 832,333"></polygon>
+            <polygon class="arrow-cold" points="590,319 576,326 590,333"></polygon>
 
-            <!-- Simplified supply / return manifolds -->
-            <path class="hot" d="M505 238 H585 V175 H635"></path>
-            <path class="hot" d="M585 238 V390 H635"></path>
-            <path class="cold" d="M505 390 H545 V225 H635"></path>
-            <path class="cold" d="M545 390 V465 H635"></path>
-
-            <!-- RADIATOR LOOP -->
-            <g id="obj-heating-pump" class="pump-off" data-entity-key="heating_pump" tabindex="0" transform="translate(655 175)">
+            <g id="obj-heating-pump" class="pump-off" data-entity-key="heating_pump" tabindex="0" transform="translate(690 278)">
               <rect class="pump-shape" x="-28" y="-4" width="15" height="8" rx="1"></rect>
               <rect class="pump-shape" x="13" y="-4" width="15" height="8" rx="1"></rect>
-              <circle cx="0" cy="0" r="18" fill="var(--bc-pill-bg)" stroke="currentColor" stroke-width="6"></circle>
+              <circle cx="0" cy="0" r="19" fill="var(--bc-pill-bg)" stroke="currentColor" stroke-width="6"></circle>
               <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
               <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
-            </g>
-            <path class="hot" d="M683 175 H1015"></path>
-            <path class="cold" d="M1015 225 H635"></path>
-            <polygon class="arrow-hot" points="770,168 784,175 770,182"></polygon>
-            <polygon class="arrow-hot" points="905,168 919,175 905,182"></polygon>
-            <polygon class="arrow-cold" points="870,218 856,225 870,232"></polygon>
-            <polygon class="arrow-cold" points="740,218 726,225 740,232"></polygon>
-
-            <g data-entity-key="heating_flow_temp" tabindex="0" transform="translate(722 170)">
-              <rect class="pill-bg" width="145" height="55" rx="7"></rect>
-              <path class="pill-icon" d="M14 10h8v20a7 7 0 1 1-8 0V10zm4 3v20l-2 1a4 4 0 1 0 4 0l-2-1V13z"></path>
-              <text id="label-flow" class="small-label" x="40" y="17">Départ</text>
-              <text id="txt-heating-flow" class="value-small" x="40" y="36">—</text>
-              <text id="txt-heating-target" class="target" x="40" y="50">—</text>
+              <rect x="-13" y="-26" width="26" height="5" rx="1" fill="currentColor"></rect>
+              <rect x="-13" y="21" width="26" height="5" rx="1" fill="currentColor"></rect>
             </g>
 
-            <g data-entity-key="outside_temp" tabindex="0" transform="translate(1050 88)">
-              <rect class="pill-bg" width="130" height="37" rx="7"></rect>
-              <circle class="pill-icon" cx="18" cy="18" r="7"></circle>
-              <path class="pill-icon" d="M18 4v5M18 27v5M4 18h5M27 18h5M8 8l4 4M24 24l4 4M28 8l-4 4M12 24l-4 4" stroke="var(--bc-metal-light)" stroke-width="2" fill="none"></path>
-              <text id="txt-outside-temp" class="value-small" x="38" y="23">—</text>
+            <g fill="#a9a9a9">
+              <rect x="1022" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1040" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1058" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1076" y="250" width="14" height="87" rx="7"></rect>
+              <rect x="1094" y="250" width="14" height="87" rx="7"></rect>
+              <path d="M1036 237 C1026 226 1039 220 1032 209 M1055 237 C1045 226 1058 220 1051 209 M1074 237 C1064 226 1077 220 1070 209" stroke="#d0d0d0" stroke-width="4" fill="none" stroke-linecap="round"></path>
             </g>
 
-            <!-- Wider house roof / radiator -->
-            <path d="M340 180 L760 5 L1188 220 V535" fill="none" stroke="var(--bc-metal-light)" stroke-width="6"></path>
-            <g data-entity-key="room_temp" tabindex="0" transform="translate(670 78)">
-              <rect class="pill-bg" width="170" height="38" rx="7"></rect>
-              <path class="pill-icon" d="M7 20l14-12 14 12h-4v12H11V20H7zm9 10h10V19H16v11z"></path>
-              <text id="txt-room-temp" class="value-small" x="43" y="24">—</text>
-            </g>
-            <g transform="translate(1008 172)" fill="var(--bc-metal)">
-              <path d="M0 0h12l-4 61H-4z"></path>
-              <path d="M16 0h12l-4 61H12z"></path>
-              <path d="M32 0h12l-4 61H28z"></path>
-              <path d="M48 0h12l-4 61H44z"></path>
-              <path d="M64 0h12l-4 61H60z"></path>
-            </g>
+            <path class="hot" d="M485 454 H835" fill="none"></path>
+            <path class="cold" d="M835 522 H535 Q525 522 525 512 V492 Q525 482 515 482 H485" fill="none"></path>
+            <polygon class="arrow-hot" points="577,447 591,454 577,461"></polygon>
+            <polygon class="arrow-hot" points="777,447 791,454 777,461"></polygon>
+            <polygon class="arrow-cold" points="756,515 742,522 756,529"></polygon>
+            <polygon class="arrow-cold" points="580,515 566,522 580,529"></polygon>
 
-            <!-- DHW PRIMARY LOOP -->
-            <g id="obj-dhw-pump" class="pump-off" data-entity-key="dhw_pump" tabindex="0" transform="translate(655 390)">
+            <g id="obj-dhw-pump" class="pump-off" data-entity-key="dhw_pump" tabindex="0" transform="translate(690 454)">
               <rect class="pump-shape" x="-28" y="-4" width="15" height="8" rx="1"></rect>
               <rect class="pump-shape" x="13" y="-4" width="15" height="8" rx="1"></rect>
-              <circle cx="0" cy="0" r="18" fill="var(--bc-pill-bg)" stroke="currentColor" stroke-width="6"></circle>
+              <circle cx="0" cy="0" r="19" fill="var(--bc-pill-bg)" stroke="currentColor" stroke-width="6"></circle>
               <circle class="pump-shape" cx="0" cy="0" r="7"></circle>
               <path class="pump-shape" d="M-4-11h8l5 7-4 2-5-5-5 5-4-2z"></path>
+              <rect x="-13" y="-26" width="26" height="5" rx="1" fill="currentColor"></rect>
+              <rect x="-13" y="21" width="26" height="5" rx="1" fill="currentColor"></rect>
             </g>
-            <path class="hot" d="M683 390 H830"></path>
-            <path class="cold" d="M830 465 H545"></path>
-            <polygon class="arrow-hot" points="744,383 758,390 744,397"></polygon>
-            <polygon class="arrow-cold" points="690,458 676,465 690,472"></polygon>
 
-            <!-- DHW tank -->
             <g>
-              <rect x="830" y="310" width="200" height="70" fill="var(--bc-hot)" opacity=".78" clip-path="url(#dhw-tank-clip)"></rect>
-              <rect x="830" y="380" width="200" height="63" fill="var(--bc-hot)" opacity=".55" clip-path="url(#dhw-tank-clip)"></rect>
-              <rect x="830" y="443" width="200" height="57" fill="var(--bc-cold)" opacity=".68" clip-path="url(#dhw-tank-clip)"></rect>
-              <path d="M830 330 C830 306 875 292 930 292 C985 292 1030 306 1030 330 V466 C1030 486 986 500 930 500 C874 500 830 486 830 466 Z" fill="none" stroke="var(--bc-metal)" stroke-width="8"></path>
-              <path d="M830 379 H1030 M830 442 H1030" stroke="var(--bc-metal-dark)" stroke-width="4"></path>
-              <path d="M860 497 l-11 20 h30 l7-17 M1000 497 l11 20 h-30 l-7-17" stroke="var(--bc-metal)" stroke-width="6" fill="none"></path>
-
-              <!-- Boiler heat-exchanger coil, placed in the lower half of the tank -->
-              <path class="primary-coil" d="M830 390 H960 C1000 390 1000 405 960 405 H880 C840 405 840 420 880 420 H960 C1000 420 1000 435 960 435 H880 C840 435 840 450 880 450 H960 C1000 450 1000 465 960 465 H830"></path>
+              <rect x="835" y="350" width="184" height="184" fill="url(#dhw-fill-gradient)" clip-path="url(#dhw-tank-clip)"></rect>
+              <path d="M835 382 C835 362 876 350 927 350 C978 350 1019 362 1019 382 V500 C1019 521 978 534 927 534 C876 534 835 521 835 500 Z" fill="none" stroke="#a6a6a6" stroke-width="8"></path>
+              <path d="M835 421 H1019 M835 493 H1019" stroke="#565656" stroke-width="4"></path>
+              <path d="M864 532 l-9 27 h27 l8-25 M990 532 l9 27 h-27 l-8-25" stroke="#a6a6a6" stroke-width="6" fill="none"></path>
+              <path d="M835 454 H950 C991 454 991 468 950 468 H886 C850 468 850 482 886 482 H950 C991 482 991 496 950 496 H886 C850 496 850 510 886 510 H950 C991 510 991 522 950 522 H835" fill="none" stroke="url(#coil-gradient)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path>
             </g>
 
-            <!-- Electric immersion heater: state-coloured box + horizontal element -->
             <g id="obj-electric-heater" class="heater-disabled" data-entity-key="electric_heater_state" tabindex="0">
-              <rect class="heater-box" x="772" y="314" width="48" height="48" rx="6"></rect>
-              <path class="heater-bolt" d="M793 320 H805 L799 333 H808 L792 356 L797 340 H788 Z"></path>
-              <path class="heater-tube" d="M820 338 H918"></path>
+              <rect class="heater-box" x="790" y="381" width="42" height="42" rx="5"></rect>
+              <path class="heater-bolt" d="M808 385 H818 L813 397 H821 L807 417 L811 403 H803 Z"></path>
+              <path class="heater-tube" d="M832 402 H912"></path>
             </g>
 
-            <!-- DHW temperatures: top / middle + target / bottom -->
-            <g data-entity-key="dhw_top_temp" tabindex="0" transform="translate(1052 300)">
-              <text id="label-top" class="small-label" x="0" y="8">Haut</text>
-              <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
-              <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
-              <text id="txt-dhw-top" class="value-small" x="39" y="41">—</text>
-            </g>
-
-            <g data-entity-key="dhw_middle_temp" tabindex="0" transform="translate(1052 374)">
-              <text id="label-middle" class="small-label" x="0" y="8">Milieu</text>
-              <rect class="pill-bg" x="0" y="16" width="135" height="52" rx="7"></rect>
-              <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
-              <text id="txt-dhw-middle" class="value-small" x="39" y="39">—</text>
-              <text id="txt-dhw-target" class="target" x="39" y="57">—</text>
-            </g>
-
-            <g data-entity-key="dhw_bottom_temp" tabindex="0" transform="translate(1052 454)">
-              <text id="label-bottom" class="small-label" x="0" y="8">Bas</text>
-              <rect class="pill-bg" x="0" y="16" width="135" height="37" rx="7"></rect>
-              <path class="pill-icon" d="M12 23h7v14a6 6 0 1 1-7 0V23zm3 3v14l-2 1a3 3 0 1 0 4 0l-2-1V26z"></path>
-              <text id="txt-dhw-bottom" class="value-small" x="39" y="41">—</text>
-            </g>
+            <path d="M26 569 H1172" stroke="#5c5c5c" stroke-width="3" opacity=".65"></path>
           </svg>
         </div>
       </ha-card>

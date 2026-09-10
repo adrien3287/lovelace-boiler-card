@@ -1,27 +1,19 @@
 <!doctype html>
 <html><head><meta charset="utf-8"><style>
-body{margin:0;background:#111;color:#eee;font-family:Roboto,Arial,sans-serif;padding:20px} lovelace-boiler-card{display:block;max-width:1500px;margin:auto}
+body{margin:0;background:#111;color:#eee;font-family:Roboto,Arial,sans-serif;padding:20px}lovelace-boiler-card{display:block;max-width:1600px;margin:auto}
 </style></head><body>
-<script>
-customElements.define('ha-card', class extends HTMLElement {connectedCallback(){this.style.display='block';this.style.background='#202020';this.style.borderRadius='12px';this.style.boxShadow='0 2px 8px #0008';}});
-</script>
+<script>customElements.define('ha-card',class extends HTMLElement{connectedCallback(){this.style.display='block';this.style.background='#202020';this.style.borderRadius='12px';}});</script>
 <script src="./lovelace-boiler-card.js"></script>
 <lovelace-boiler-card id="card"></lovelace-boiler-card>
 <script>
 const c=document.getElementById('card');
-c.setConfig({
- oil_level:'sensor.oil',oil_volume:'sensor.volume',boiler_temp:'sensor.boiler',burner_state:'input_select.statut_chaudiere',
- boiler_return_temp:'sensor.return',flue_gas_temp:'sensor.flue',
- heating_pump:'binary_sensor.hp',outside_temp:'sensor.out',room_temp:'sensor.room',heating_flow_temp:'sensor.flow',heating_target_temp:'sensor.flow_target',
- dhw_pump:'binary_sensor.dp',dhw_top_temp:'sensor.top',dhw_middle_temp:'sensor.mid',dhw_bottom_temp:'sensor.bot',dhw_target_temp:'sensor.dtarget',electric_heater_state:'input_select.statut_resistance'
-});
+c.setConfig({oil_level:'sensor.oil',boiler_temp:'sensor.boiler',burner_state:'input_select.statut_chaudiere',heating_pump:'binary_sensor.hp',dhw_pump:'binary_sensor.dp',electric_heater_state:'input_select.statut_resistance'});
 c.hass={language:'fr',states:{
- 'sensor.oil':{state:'82.6',attributes:{unit_of_measurement:'%'}}, 'sensor.volume':{state:'2479',attributes:{unit_of_measurement:'L'}},
- 'sensor.boiler':{state:'72.4',attributes:{unit_of_measurement:'°C'}}, 'input_select.statut_chaudiere':{state:'Brûleur actif',attributes:{}},
- 'sensor.return':{state:'61.8',attributes:{unit_of_measurement:'°C'}}, 'sensor.flue':{state:'179.4',attributes:{unit_of_measurement:'°C'}},
- 'binary_sensor.hp':{state:'on',attributes:{}}, 'sensor.out':{state:'16.7',attributes:{unit_of_measurement:'°C'}}, 'sensor.room':{state:'20.9',attributes:{unit_of_measurement:'°C'}},
- 'sensor.flow':{state:'49.9',attributes:{unit_of_measurement:'°C'}}, 'sensor.flow_target':{state:'47.0',attributes:{unit_of_measurement:'°C'}},
- 'binary_sensor.dp':{state:'on',attributes:{}}, 'sensor.top':{state:'54.8',attributes:{unit_of_measurement:'°C'}}, 'sensor.mid':{state:'43.7',attributes:{unit_of_measurement:'°C'}}, 'sensor.bot':{state:'31.3',attributes:{unit_of_measurement:'°C'}}, 'sensor.dtarget':{state:'50.0',attributes:{unit_of_measurement:'°C'}},
- 'input_select.statut_resistance':{state:'Chauffe',attributes:{}}
+'sensor.oil':{state:'82.6',attributes:{unit_of_measurement:'%'}},
+'sensor.boiler':{state:'72.4',attributes:{unit_of_measurement:'°C'}},
+'input_select.statut_chaudiere':{state:'Brûleur actif',attributes:{}},
+'binary_sensor.hp':{state:'off',attributes:{}},
+'binary_sensor.dp':{state:'off',attributes:{}},
+'input_select.statut_resistance':{state:'Arrêt',attributes:{}}
 }};
 </script></body></html>
