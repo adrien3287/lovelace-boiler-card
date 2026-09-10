@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.6.2**
+**Current version: 0.6.3**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.6.2
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.6.3
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload or temporarily add the version query string shown above.
@@ -188,3 +188,11 @@ Added dynamic overlay boxes for:
 - DHW tank temperatures on the right side: top, middle, bottom
 - DHW target temperature in red under the middle temperature
 - heating and DHW pump status shown directly on the two pump symbols (grey when off, green when on)
+
+
+## Value overlay pass (0.6.3)
+
+- Added visible value overlays directly on the approved drawing.
+- No textual labels such as Haut / Milieu / Bas are shown.
+- Temperature/value text is enlarged by roughly 50%.
+- Temperature and setpoint boxes now use icon-based overlays.

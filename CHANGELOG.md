@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.3
+- Added all main values directly onto the validated SVG drawing.
+- Removed visible labels such as Haut, Milieu, Bas and Extérieur from overlay boxes.
+- Increased displayed values by about 50 percent for readability.
+- Added icon-based temperature/setpoint overlays for boiler, flue gas, room, outside, heating flow and DHW values.
+
 ## 0.6.2
 
 - Added visible outside-temperature badge above the roof on the right.

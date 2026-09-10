@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.6.2";
+const BOILER_CARD_VERSION = "0.6.3";
 
 const DEFAULTS = {
   title: "",
@@ -441,7 +441,7 @@ class LovelaceBoilerCard extends HTMLElement {
         ha-card {
           overflow: hidden;
           background: var(--ha-card-background, var(--card-background-color));
-          color: var(--bc-text);
+          color: var(--bc-text, #e8e8e8);
         }
 
         .header {
@@ -464,12 +464,11 @@ class LovelaceBoilerCard extends HTMLElement {
           overflow: visible;
         }
 
-        .section-label { fill: var(--bc-muted); font-size: 18px; font-weight: 500; }
-        .small-label { fill: var(--bc-muted); font-size: 12px; }
-        .value { fill: var(--bc-text); font-size: 17px; font-weight: 500; }
-        .value-small { fill: var(--bc-text); font-size: 14px; font-weight: 500; }
-        .target { fill: #ff3232; font-size: 12px; font-weight: 600; }
-        .state-text { fill: var(--bc-muted); font-size: 11px; }
+        .section-label { fill: var(--bc-muted, #a9a9a9); font-size: 18px; font-weight: 500; }
+                .value { fill: var(--bc-text, #e8e8e8); font-size: 26px; font-weight: 600; }
+        .value-small { fill: var(--bc-text, #e8e8e8); font-size: 22px; font-weight: 600; }
+        .target { fill: #ff3232; font-size: 18px; font-weight: 700; }
+        .state-text { fill: var(--bc-muted, #a9a9a9); font-size: 11px; }
 
         .hot { stroke: var(--bc-hot); fill: none; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
         .cold { stroke: var(--bc-cold); fill: none; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
@@ -480,13 +479,18 @@ class LovelaceBoilerCard extends HTMLElement {
         .light-fill { fill: var(--bc-metal-light); }
         .oil-fill { fill: var(--bc-oil); opacity: .72; }
 
-        .pill-bg { fill: var(--bc-pill-bg); stroke: var(--bc-pill-border); stroke-width: 1.5; }
+        .pill-bg { fill: var(--bc-pill-bg, #202020); stroke: var(--bc-pill-border, #a0a0a0); stroke-width: 1.5; }
         .pill-icon { fill: var(--bc-metal-light); }
 
         .pump-off { color: var(--bc-pump-off); }
         .pump-on { color: var(--bc-pump-on); }
         .pump-ring { stroke: currentColor; fill: none; stroke-width: 8; }
         .pump-fill { fill: currentColor; }
+.icon-line { stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.icon-fill { fill: currentColor; }
+.icon-muted { color: var(--bc-text, #e8e8e8); opacity: 0.96; }
+.icon-target { color: #ff3232; }
+.value-center { fill: var(--bc-text, #e8e8e8); font-size: 24px; font-weight: 600; }
 
         .flame-off { color: var(--bc-flame-off); }
         .flame-standby { color: var(--bc-flame-standby); }
@@ -503,7 +507,7 @@ class LovelaceBoilerCard extends HTMLElement {
         .heater-enabled { color: var(--bc-heater-enabled); }
         .heater-heating { color: var(--bc-heater-heating); }
         .heater-tube { stroke: currentColor; fill: none; stroke-width: 8; stroke-linecap: round; }
-        .heater-box { stroke: currentColor; fill: var(--bc-pill-bg); stroke-width: 5; }
+        .heater-box { stroke: currentColor; fill: var(--bc-pill-bg, #202020); stroke-width: 5; }
         .heater-bolt { fill: currentColor; }
         .primary-coil { stroke: url(#primary-coil-gradient); fill: none; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -584,53 +588,158 @@ class LovelaceBoilerCard extends HTMLElement {
     <image class="state-layer heater-heating-layer" href="data:image/png;base64,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" x="1110" y="525" width="225" height="105"/>
     <rect class="hotspot" x="1100" y="520" width="235" height="115" rx="10" ry="10"/>
   </g>
-  <!-- Dynamic temperature overlays -->
-  <g id="box-outside-temp" data-entity-key="outside_temp" tabindex="0">
-    <text id="label-outside" x="1492" y="110" class="small-label" text-anchor="middle">Extérieur</text>
-    <rect class="pill-bg" x="1400" y="120" width="184" height="50" rx="12" ry="12"/>
-    <text id="txt-outside-temp" x="1492" y="152" class="value" text-anchor="middle">—</text>
-    <rect class="hotspot" x="1397" y="117" width="190" height="56" rx="12" ry="12"/>
+<!-- Dynamic value overlays -->
+<g id="box-oil-level" data-entity-key="oil_level" tabindex="0">
+  <rect class="pill-bg" x="76" y="114" width="214" height="56" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(94 126)">
+    <path class="icon-line" d="M4 16a8 8 0 1 1 16 0"/>
+    <path class="icon-line" d="M12 16l4-5"/>
+    <path class="icon-line" d="M7 13l-1.7-1.7M17 13l1.7-1.7M12 8V6"/>
   </g>
+  <text id="txt-oil-level" x="194" y="152" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="73" y="111" width="220" height="62" rx="12" ry="12"/>
+</g>
 
-  <g id="box-dhw-top-temp" data-entity-key="dhw_top_temp" tabindex="0">
-    <text id="label-top" x="1395" y="538" class="small-label">Haut</text>
-    <rect class="pill-bg" x="1395" y="546" width="178" height="48" rx="12" ry="12"/>
-    <text id="txt-dhw-top" x="1484" y="578" class="value" text-anchor="middle">—</text>
-    <rect class="hotspot" x="1392" y="543" width="184" height="54" rx="12" ry="12"/>
+<g id="box-oil-volume" data-entity-key="oil_volume" tabindex="0">
+  <text id="txt-oil-volume" x="183" y="836" class="value-center" text-anchor="middle">—</text>
+  <rect class="hotspot" x="115" y="808" width="136" height="36" rx="8" ry="8"/>
+</g>
+
+<g id="box-boiler-temp" data-entity-key="boiler_temp" tabindex="0">
+  <rect class="pill-bg" x="464" y="465" width="196" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(482 478)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
   </g>
+  <text id="txt-boiler-temp" x="576" y="504" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="461" y="462" width="202" height="64" rx="12" ry="12"/>
+</g>
 
-  <g id="box-dhw-middle-temp" data-entity-key="dhw_middle_temp" tabindex="0">
-    <text id="label-middle" x="1395" y="651" class="small-label">Milieu</text>
-    <rect class="pill-bg" x="1395" y="659" width="178" height="62" rx="12" ry="12"/>
-    <text id="txt-dhw-middle" x="1484" y="689" class="value" text-anchor="middle">—</text>
-    <text id="txt-dhw-target" x="1484" y="710" class="target" text-anchor="middle">—</text>
-    <rect class="hotspot" x="1392" y="656" width="184" height="68" rx="12" ry="12"/>
+<g id="optional-boiler-return" style="display:none" data-entity-key="boiler_return_temp" tabindex="0">
+  <rect class="pill-bg" x="446" y="612" width="214" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(464 625)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
   </g>
+  <text id="txt-boiler-return" x="574" y="651" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="443" y="609" width="220" height="64" rx="12" ry="12"/>
+</g>
 
-  <g id="box-dhw-bottom-temp" data-entity-key="dhw_bottom_temp" tabindex="0">
-    <text id="label-bottom" x="1395" y="776" class="small-label">Bas</text>
-    <rect class="pill-bg" x="1395" y="784" width="178" height="48" rx="12" ry="12"/>
-    <text id="txt-dhw-bottom" x="1484" y="816" class="value" text-anchor="middle">—</text>
-    <rect class="hotspot" x="1392" y="781" width="184" height="54" rx="12" ry="12"/>
+<g id="optional-flue-gas" style="display:none" data-entity-key="flue_gas_temp" tabindex="0">
+  <rect class="pill-bg" x="650" y="112" width="180" height="56" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(666 124)">
+    <path class="icon-line" d="M7 20c2.8-1.8 1.4-4.8 3.1-6.4 1.6-1.6 3.1-2.7 2.4-5.6"/>
+    <path class="icon-line" d="M13 20c2.8-1.8 1.4-4.8 3.1-6.4 1.6-1.6 3.1-2.7 2.4-5.6"/>
+    <path class="icon-line" d="M4.5 22h15"/>
   </g>
+  <text id="txt-flue-gas" x="751" y="150" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="647" y="109" width="186" height="62" rx="12" ry="12"/>
+</g>
 
-  <!-- Hidden placeholders kept for compatibility / future use -->
-  <g id="optional-boiler-return" style="display:none"></g>
-  <g id="optional-flue-gas" style="display:none"></g>
-  <text id="label-room" x="-9999" y="-9999"></text>
-  <text id="label-flow" x="-9999" y="-9999"></text>
-  <text id="label-target" x="-9999" y="-9999"></text>
-  <text id="label-return" x="-9999" y="-9999"></text>
-  <text id="label-flue" x="-9999" y="-9999"></text>
-  <text id="txt-oil-level" x="-9999" y="-9999"></text>
-  <text id="txt-oil-volume" x="-9999" y="-9999"></text>
-  <text id="txt-boiler-temp" x="-9999" y="-9999"></text>
-  <text id="txt-boiler-return" x="-9999" y="-9999"></text>
-  <text id="txt-flue-gas" x="-9999" y="-9999"></text>
-  <text id="txt-room-temp" x="-9999" y="-9999"></text>
-  <text id="txt-heating-flow" x="-9999" y="-9999"></text>
-  <text id="txt-heating-target" x="-9999" y="-9999"></text>
-  <text id="txt-burner-state" x="-9999" y="-9999"></text>
+<g id="box-room-temp" data-entity-key="room_temp" tabindex="0">
+  <rect class="pill-bg" x="888" y="136" width="230" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(905 148)">
+    <path class="icon-line" d="M4 11.5L12 4l8 7.5v8.5h-5.2v-6H9.2v6H4z"/>
+    <rect x="11" y="8" width="2.6" height="6.8" rx="1.3" class="icon-fill"/>
+    <circle cx="12.3" cy="17.6" r="2.6" class="icon-fill"/>
+  </g>
+  <text id="txt-room-temp" x="1024" y="175" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="885" y="133" width="236" height="64" rx="12" ry="12"/>
+</g>
+
+<g id="box-outside-temp" data-entity-key="outside_temp" tabindex="0">
+  <rect class="pill-bg" x="1385" y="122" width="212" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1401 134)">
+    <circle cx="7" cy="7" r="4.2" class="icon-line"/>
+    <path class="icon-line" d="M7 .8V-1.8M7 15.2v2.6M.8 7H-1.8M15.2 7h2.6M2.2 2.2L.3.3M11.8 11.8l1.9 1.9M11.8 2.2l1.9-1.9M2.2 11.8L.3 13.7"/>
+    <rect x="17.5" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="19.4" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="20.7" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="20.7" cy="18.2" r="5.2" class="icon-line"/>
+  </g>
+  <text id="txt-outside-temp" x="1497" y="161" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1382" y="119" width="218" height="64" rx="12" ry="12"/>
+</g>
+
+<g id="box-heating-flow" data-entity-key="heating_flow_temp" tabindex="0">
+  <rect class="pill-bg" x="962" y="246" width="192" height="82" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(978 259)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
+  </g>
+  <text id="txt-heating-flow" x="1076" y="281" class="value" text-anchor="middle">—</text>
+  <g class="icon-target" transform="translate(984 290)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
+    <path class="icon-line" d="M19 10.5l2.6 2.6 4.8-5"/>
+  </g>
+  <text id="txt-heating-target" x="1076" y="317" class="target" text-anchor="middle">—</text>
+  <rect class="hotspot" x="959" y="243" width="198" height="88" rx="12" ry="12"/>
+</g>
+
+<g id="box-dhw-top-temp" data-entity-key="dhw_top_temp" tabindex="0">
+  <rect class="pill-bg" x="1392" y="538" width="190" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1408 551)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
+  </g>
+  <text id="txt-dhw-top" x="1502" y="577" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1389" y="535" width="196" height="64" rx="12" ry="12"/>
+</g>
+
+<g id="box-dhw-middle-temp" data-entity-key="dhw_middle_temp" tabindex="0">
+  <rect class="pill-bg" x="1392" y="646" width="190" height="82" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1408 659)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
+  </g>
+  <text id="txt-dhw-middle" x="1502" y="681" class="value" text-anchor="middle">—</text>
+  <g class="icon-target" transform="translate(1414 690)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
+    <path class="icon-line" d="M19 10.5l2.6 2.6 4.8-5"/>
+  </g>
+  <text id="txt-dhw-target" x="1502" y="718" class="target" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1389" y="643" width="196" height="88" rx="12" ry="12"/>
+</g>
+
+<g id="box-dhw-bottom-temp" data-entity-key="dhw_bottom_temp" tabindex="0">
+  <rect class="pill-bg" x="1392" y="760" width="190" height="58" rx="12" ry="12"/>
+  <g class="icon-muted" transform="translate(1408 773)">
+    <rect x="8.8" y="2.5" width="6.4" height="13.2" rx="3.2" class="icon-line"/>
+    <rect x="10.7" y="7" width="2.6" height="8" rx="1.3" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="4" class="icon-fill"/>
+    <circle cx="12" cy="18.2" r="5.2" class="icon-line"/>
+  </g>
+  <text id="txt-dhw-bottom" x="1502" y="799" class="value" text-anchor="middle">—</text>
+  <rect class="hotspot" x="1389" y="757" width="196" height="64" rx="12" ry="12"/>
+</g>
+
+<!-- Hidden placeholders kept for compatibility / future use -->
+<text id="label-outside" x="-9999" y="-9999"></text>
+<text id="label-room" x="-9999" y="-9999"></text>
+<text id="label-flow" x="-9999" y="-9999"></text>
+<text id="label-target" x="-9999" y="-9999"></text>
+<text id="label-return" x="-9999" y="-9999"></text>
+<text id="label-flue" x="-9999" y="-9999"></text>
+<text id="label-top" x="-9999" y="-9999"></text>
+<text id="label-middle" x="-9999" y="-9999"></text>
+<text id="label-bottom" x="-9999" y="-9999"></text>
+<text id="txt-burner-state" x="-9999" y="-9999"></text>
 </svg>
         </div>
       </ha-card>
