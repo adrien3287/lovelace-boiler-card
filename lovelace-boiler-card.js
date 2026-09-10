@@ -7,7 +7,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.6.1";
+const BOILER_CARD_VERSION = "0.6.2";
 
 const DEFAULTS = {
   title: "",
@@ -485,7 +485,8 @@ class LovelaceBoilerCard extends HTMLElement {
 
         .pump-off { color: var(--bc-pump-off); }
         .pump-on { color: var(--bc-pump-on); }
-        .pump-shape { fill: currentColor; }
+        .pump-ring { stroke: currentColor; fill: none; stroke-width: 8; }
+        .pump-fill { fill: currentColor; }
 
         .flame-off { color: var(--bc-flame-off); }
         .flame-standby { color: var(--bc-flame-standby); }
@@ -524,7 +525,7 @@ class LovelaceBoilerCard extends HTMLElement {
         <div class="wrap">
           <svg viewBox="0 0 1774 887" role="img" aria-label="Oil boiler installation" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .hotspot { fill: rgba(0,0,0,0); stroke: none; }
+    .hotspot { fill: transparent; stroke: none; }
     [data-entity-key] { cursor: pointer; outline: none; }
     [data-entity-key]:focus-visible .hotspot { fill: rgba(255,255,255,0.08); }
     .state-layer { display:none; pointer-events:none; }
@@ -557,9 +558,23 @@ class LovelaceBoilerCard extends HTMLElement {
   </g>
 
   <g id="obj-heating-pump" class="pump-off" data-entity-key="heating_pump" tabindex="0">
+    <circle class="pump-ring" cx="992" cy="320" r="28"/>
+    <circle class="pump-ring" cx="992" cy="320" r="16"/>
+    <circle class="pump-fill" cx="992" cy="320" r="8"/>
+    <rect class="pump-fill" x="963" y="285" width="58" height="8" rx="4"/>
+    <rect class="pump-fill" x="963" y="347" width="58" height="8" rx="4"/>
+    <rect class="pump-fill" x="951" y="304" width="8" height="32" rx="4"/>
+    <rect class="pump-fill" x="1025" y="304" width="8" height="32" rx="4"/>
     <rect class="hotspot" x="935" y="263" width="114" height="114" rx="12" ry="12"/>
   </g>
   <g id="obj-dhw-pump" class="pump-off" data-entity-key="dhw_pump" tabindex="0">
+    <circle class="pump-ring" cx="992" cy="652" r="28"/>
+    <circle class="pump-ring" cx="992" cy="652" r="16"/>
+    <circle class="pump-fill" cx="992" cy="652" r="8"/>
+    <rect class="pump-fill" x="963" y="617" width="58" height="8" rx="4"/>
+    <rect class="pump-fill" x="963" y="679" width="58" height="8" rx="4"/>
+    <rect class="pump-fill" x="951" y="636" width="8" height="32" rx="4"/>
+    <rect class="pump-fill" x="1025" y="636" width="8" height="32" rx="4"/>
     <rect class="hotspot" x="935" y="595" width="114" height="114" rx="12" ry="12"/>
   </g>
 
@@ -569,32 +584,52 @@ class LovelaceBoilerCard extends HTMLElement {
     <image class="state-layer heater-heating-layer" href="data:image/png;base64,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" x="1110" y="525" width="225" height="105"/>
     <rect class="hotspot" x="1100" y="520" width="235" height="115" rx="10" ry="10"/>
   </g>
+  <!-- Dynamic temperature overlays -->
+  <g id="box-outside-temp" data-entity-key="outside_temp" tabindex="0">
+    <text id="label-outside" x="1492" y="110" class="small-label" text-anchor="middle">Extérieur</text>
+    <rect class="pill-bg" x="1400" y="120" width="184" height="50" rx="12" ry="12"/>
+    <text id="txt-outside-temp" x="1492" y="152" class="value" text-anchor="middle">—</text>
+    <rect class="hotspot" x="1397" y="117" width="190" height="56" rx="12" ry="12"/>
+  </g>
 
-  <!-- Hidden placeholders preserved for future text overlays -->
+  <g id="box-dhw-top-temp" data-entity-key="dhw_top_temp" tabindex="0">
+    <text id="label-top" x="1395" y="538" class="small-label">Haut</text>
+    <rect class="pill-bg" x="1395" y="546" width="178" height="48" rx="12" ry="12"/>
+    <text id="txt-dhw-top" x="1484" y="578" class="value" text-anchor="middle">—</text>
+    <rect class="hotspot" x="1392" y="543" width="184" height="54" rx="12" ry="12"/>
+  </g>
+
+  <g id="box-dhw-middle-temp" data-entity-key="dhw_middle_temp" tabindex="0">
+    <text id="label-middle" x="1395" y="651" class="small-label">Milieu</text>
+    <rect class="pill-bg" x="1395" y="659" width="178" height="62" rx="12" ry="12"/>
+    <text id="txt-dhw-middle" x="1484" y="689" class="value" text-anchor="middle">—</text>
+    <text id="txt-dhw-target" x="1484" y="710" class="target" text-anchor="middle">—</text>
+    <rect class="hotspot" x="1392" y="656" width="184" height="68" rx="12" ry="12"/>
+  </g>
+
+  <g id="box-dhw-bottom-temp" data-entity-key="dhw_bottom_temp" tabindex="0">
+    <text id="label-bottom" x="1395" y="776" class="small-label">Bas</text>
+    <rect class="pill-bg" x="1395" y="784" width="178" height="48" rx="12" ry="12"/>
+    <text id="txt-dhw-bottom" x="1484" y="816" class="value" text-anchor="middle">—</text>
+    <rect class="hotspot" x="1392" y="781" width="184" height="54" rx="12" ry="12"/>
+  </g>
+
+  <!-- Hidden placeholders kept for compatibility / future use -->
   <g id="optional-boiler-return" style="display:none"></g>
   <g id="optional-flue-gas" style="display:none"></g>
-  <text id="label-outside" x="-9999" y="-9999"></text>
   <text id="label-room" x="-9999" y="-9999"></text>
   <text id="label-flow" x="-9999" y="-9999"></text>
   <text id="label-target" x="-9999" y="-9999"></text>
   <text id="label-return" x="-9999" y="-9999"></text>
   <text id="label-flue" x="-9999" y="-9999"></text>
-  <text id="label-top" x="-9999" y="-9999"></text>
-  <text id="label-middle" x="-9999" y="-9999"></text>
-  <text id="label-bottom" x="-9999" y="-9999"></text>
   <text id="txt-oil-level" x="-9999" y="-9999"></text>
   <text id="txt-oil-volume" x="-9999" y="-9999"></text>
   <text id="txt-boiler-temp" x="-9999" y="-9999"></text>
   <text id="txt-boiler-return" x="-9999" y="-9999"></text>
   <text id="txt-flue-gas" x="-9999" y="-9999"></text>
-  <text id="txt-outside-temp" x="-9999" y="-9999"></text>
   <text id="txt-room-temp" x="-9999" y="-9999"></text>
   <text id="txt-heating-flow" x="-9999" y="-9999"></text>
   <text id="txt-heating-target" x="-9999" y="-9999"></text>
-  <text id="txt-dhw-top" x="-9999" y="-9999"></text>
-  <text id="txt-dhw-middle" x="-9999" y="-9999"></text>
-  <text id="txt-dhw-bottom" x="-9999" y="-9999"></text>
-  <text id="txt-dhw-target" x="-9999" y="-9999"></text>
   <text id="txt-burner-state" x="-9999" y="-9999"></text>
 </svg>
         </div>

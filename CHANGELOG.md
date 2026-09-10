@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.2
+
+- Added visible outside-temperature badge above the roof on the right.
+- Added visible DHW tank badges on the right for top, middle and bottom temperatures.
+- Added visible red DHW target temperature below the middle temperature.
+- Added visible pump status rendering directly on both pump symbols: grey when off, green when on.
+- Kept the validated background and dynamic boiler/resistance colour logic.
+
 ## 0.6.1
 - Added dynamic boiler status colour overlay on the validated baseline: grey / green / yellow / orange / red.
 - Added dynamic electric-heater colour overlay: grey / green / red.
