@@ -3,13 +3,15 @@
 body{margin:0;background:#111;color:#eee;font-family:Roboto,Arial,sans-serif;padding:20px}lovelace-boiler-card{display:block;max-width:1600px;margin:auto}
 </style></head><body>
 <script>customElements.define('ha-card',class extends HTMLElement{connectedCallback(){this.style.display='block';this.style.background='#202020';this.style.borderRadius='12px';}});</script>
-<script src="./lovelace-boiler-card.js"></script>
+<script type="module" src="./lovelace-boiler-card-v0.6.16.js"></script>
 <lovelace-boiler-card id="card"></lovelace-boiler-card>
 <script>
 const c=document.getElementById('card');
-c.setConfig({oil_level:'sensor.oil',boiler_temp:'sensor.boiler',burner_state:'input_select.statut_chaudiere',heating_pump:'binary_sensor.hp',dhw_pump:'binary_sensor.dp',electric_heater_state:'input_select.statut_resistance'});
+c.setConfig({oil_level:'sensor.oil',oil_height_percent:'sensor.oil_height',oil_volume:'sensor.oil_volume',boiler_temp:'sensor.boiler',burner_state:'input_select.statut_chaudiere',heating_pump:'binary_sensor.hp',dhw_pump:'binary_sensor.dp',electric_heater_state:'input_select.statut_resistance'});
 c.hass={language:'fr',states:{
-'sensor.oil':{state:'82.6',attributes:{unit_of_measurement:'%'}},
+'sensor.oil':{state:'32.6',attributes:{unit_of_measurement:'%'}},
+'sensor.oil_height':{state:'18.4',attributes:{unit_of_measurement:'%'}},
+'sensor.oil_volume':{state:'979',attributes:{unit_of_measurement:'L'}},
 'sensor.boiler':{state:'72.4',attributes:{unit_of_measurement:'°C'}},
 'input_select.statut_chaudiere':{state:'Brûleur actif',attributes:{}},
 'binary_sensor.hp':{state:'off',attributes:{}},
