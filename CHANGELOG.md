@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0
+- Rebuilt the base SVG from the approved drawing for near pixel-perfect visual fidelity.
+- Updated the HACS package so the card now uses this approved baseline image inside the SVG.
+- Kept transparent interaction areas and hidden placeholders so temperatures and labels can be added later without changing the base geometry.
+
 ## 0.5.2
 - Adjusted the oil suction pipe to match the approved layout: centered dip tube inside the tank, external drop centered in the gap between tank and boiler, then horizontal run into the boiler.
 - Removed the extra yellow junction dot so the fuel line matches the approved visual baseline.
