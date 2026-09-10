@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.6.9**
+**Current version: 0.6.15**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
@@ -35,10 +35,10 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js?v=0.6.9
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.6.15.js
 ```
 
-If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload or temporarily add the version query string shown above.
+If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload.
 
 If HACS does not add it automatically, add that URL under **Settings → Dashboards → Resources** as a JavaScript module.
 
@@ -78,143 +78,6 @@ dhw_top_temp: sensor.mosquitto_mqtt_broker_warmwasser_ist_temperatur
 electric_heater_state: input_select.statut_resistance
 ```
 
-## Boiler-state selector
+## v0.6.15 empty-tank build
 
-The default v0.3.0 mapping is designed for:
-
-```text
-Arrêt
-Veille
-Démarrage
-Brûleur actif
-Préchauffage
-```
-
-| `input_select.statut_chaudiere` | Flame |
-|---|---|
-| `Arrêt` | grey |
-| `Veille` | grey |
-| `Préchauffage` | yellow |
-| `Démarrage` | orange |
-| `Brûleur actif` | red |
-
-The mapping can still be overridden:
-
-```yaml
-burner_off_states: "Arrêt, Veille"
-burner_preheat_states: "Préchauffage"
-burner_ignition_states: "Démarrage"
-burner_burning_states: "Brûleur actif"
-```
-
-Comparisons are case-insensitive and accent-insensitive.
-
-## Electric-heater selector
-
-Recommended helper:
-
-```text
-Arrêt
-Veille
-Chauffe
-```
-
-| Electric-heater state | Drawing |
-|---|---|
-| `Arrêt` | grey |
-| `Veille` | green |
-| `Chauffe` | red |
-
-The mapping can be overridden:
-
-```yaml
-heater_disabled_states: "Arrêt"
-heater_enabled_states: "Veille"
-heater_heating_states: "Chauffe"
-```
-
-## Optional temperature entities
-
-These two elements do not display a `—` placeholder when absent; they disappear entirely from the SVG:
-
-```yaml
-boiler_return_temp: sensor.temperature_retour_chaudiere
-flue_gas_temp: sensor.temperature_fumees
-```
-
-`boiler_return_temp` is shown at the bottom of the boiler. `flue_gas_temp` is shown beside the chimney.
-
-## Development / releases
-
-No build step is required. For a release:
-
-1. update `BOILER_CARD_VERSION` in `lovelace-boiler-card.js`,
-2. update `CHANGELOG.md`,
-3. commit and tag the release, for example `v0.3.0`,
-4. create the corresponding GitHub release so HACS can expose the new version cleanly.
-
-## Credits
-
-The visual language and burner-flame path are adapted from the supplied `lovelace-froeling-card` project and its SVG/CSS customisations.
-
-
-### Boiler standby colour
-By default, `Veille` colours the boiler outline green. Override with `boiler_standby_states`.
-
-
-## 0.5 visual baseline
-
-Version 0.6.0 uses the approved no-text SVG layout as the visual baseline. Values and labels can now be reintroduced incrementally.
-
-
-## Visual baseline
-
-Version 0.6.0 uses the approved user drawing as the pixel-accurate baseline inside the SVG, so future iterations can add labels and dynamic overlays without changing the base geometry.
-
-
-## Status colours (0.6.1)
-
-The validated background geometry is unchanged. Only the status graphics are overlaid dynamically:
-
-- Boiler status indicator: `Arrêt` = grey, `Veille` = green, `Préchauffage` = yellow, `Démarrage` = orange, `Brûleur actif`/`Marche` = red.
-- Electric heater: `Arrêt` = grey, `Veille` = green, `Chauffe` = red.
-
-
-## Dynamic overlays (0.6.2)
-
-Added dynamic overlay boxes for:
-
-- outside temperature above the roof on the right
-- DHW tank temperatures on the right side: top, middle, bottom
-- DHW target temperature in red under the middle temperature
-- heating and DHW pump status shown directly on the two pump symbols (grey when off, green when on)
-
-
-## Value overlay pass (0.6.7)
-
-- Added visible value overlays directly on the approved drawing.
-- No textual labels such as Haut / Milieu / Bas are shown.
-- Temperature/value text is enlarged by roughly 50%.
-- Temperature and setpoint boxes now use icon-based overlays.
-
-
-## Layout tweaks (0.6.7)
-
-- Shifted DHW temperature badges to the right.
-- Shifted room and outside badges to the right by the same amount.
-- Moved the flue-gas badge up.
-- Merged oil percentage and oil volume into a single badge.
-- Made red setpoint text the same size as other values.
-
-
-## Final layout pass (0.6.7)
-
-- Applied the final one-by-one positioning decisions.
-- Uses the requested Material Design Icons for gauge and temperature displays.
-- All displayed numeric values use the same 26 px size; value icons are scaled to approximately the same visual size.
-- All temperatures and setpoints display one decimal place and °C; setpoints remain red.
-
-
-## Oil tank height sensor (0.6.7)
-
-The displayed oil percentage remains `oil_level` (`sensor.pourcent_fioul`). The graphical tank fill and tank click target use `oil_height_percent`, defaulting to `sensor.hauteur_fioul_pourcent`.
+Starts from the exact v0.6.9 runtime. Dynamic fuel rendering is disabled, and a pixel-accurate transparent erase overlay removes the fuel pixels baked into the v0.6.9 baseline. The tank and suction tube geometry are unchanged.
