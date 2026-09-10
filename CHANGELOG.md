@@ -1,3 +1,7 @@
+## 0.6.11
+- Fixed only the fuel level rendering: the tank interior is now fully masked before drawing the dynamic fill.
+- Removed the right-side fill artifact by clipping the fill to the main tank interior.
+
 ## 0.6.10
 - Fixed only the oil-level rendering glitch on the right side of the tank.
 - Added a dedicated oil fill clip path so the dynamic fill height no longer leaves a stray right-side column.
