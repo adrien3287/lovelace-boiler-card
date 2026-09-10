@@ -1,3 +1,24 @@
+## 0.6.16
+
+- Added a new dedicated oil-level renderer instead of reusing the previous fuel script.
+- The visible liquid level is now drawn as a vector path driven by `oil_height_percent`.
+- The displayed text still uses the configured oil percentage / volume entities.
+- The tank hotspot remains bound to `oil_height_percent`.
+- The suction tube is kept above the liquid fill.
+
+## 0.6.15
+- Starts from the exact v0.6.9 runtime.
+- Removes all visible fuel inside the tank, including the side and bottom pixels baked into the baseline image.
+- Keeps tank geometry and the v0.6.9 suction tube unchanged.
+- Uses a transparent pixel-accurate erase overlay, then redraws the original vector suction tube above it.
+
+## 0.6.14
+- Based exactly on v0.6.9.
+- Tank geometry unchanged.
+- Suction tube unchanged.
+- Dynamic orange fuel fill disabled completely for diagnosis.
+- Added a dedicated HACS entry-point module for this release candidate.
+
 ## 0.6.9
 - Fixed only the oil-tank bug: shifted the internal suction rod a few pixels left and lower.
 - Reduced the dynamic oil fill width on the right side to remove the remaining high-edge glitch.
@@ -73,7 +94,6 @@
 - DHW hot/return pipes align with the heat-exchanger coil inlet/outlet.
 - Immersion heater retained at the upper-left of the cylinder.
 - Updated hot/cold/oil palette.
-
 
 ## 0.4.2
 - Raised the main roof line so it sits higher above the installation.
