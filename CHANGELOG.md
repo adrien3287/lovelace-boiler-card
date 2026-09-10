@@ -1,3 +1,8 @@
+## 0.6.12
+- Debug build for the oil tank issue.
+- Added code annotations for: oil tank, suction tube inside the tank, and fuel fill.
+- Fuel fill intentionally disabled (height forced to 0) so the tank and tube can be inspected with no orange fuel area.
+
 ## 0.6.11
 - Fixed only the fuel level rendering: the tank interior is now fully masked before drawing the dynamic fill.
 - Removed the right-side fill artifact by clipping the fill to the main tank interior.
