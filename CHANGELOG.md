@@ -1,3 +1,12 @@
+## 0.8.1
+
+- Restarts from the validated v0.6.15 visual/runtime baseline.
+- Replaces the dynamic rounded tank fill with a static full tank interior.
+- Adds a rectangular 0/50/100% gauge inside the tank.
+- Only the yellow gauge bar changes with `oil_height_percent`.
+- Keeps the validated suction tube and all unrelated visuals unchanged.
+- Avoids DOM reordering during state updates; only the gauge `y`/`height` attributes change.
+
 ## 0.7.4
 
 - Fixes the remaining black strip at the bottom of the oil tank by extending the clipped liquid layer to the real tank bottom.
