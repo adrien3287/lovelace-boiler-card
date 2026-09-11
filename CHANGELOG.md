@@ -1,3 +1,11 @@
+## 0.7.3
+
+- Keeps the v0.7.2 oil-volume/capacity calculation.
+- Replaces the manually generated oil polygon with a rectangular liquid layer clipped by the exact existing tank path.
+- Removes the bottom wedges/gaps and gives the liquid a flat horizontal surface.
+- Changes the tank liquid colour to `#b97a57` to match the supplied reference.
+- Leaves the suction tube and all unrelated layout unchanged.
+
 ## 0.7.1
 
 - Repackages the validated v0.6.15 runtime into one self-contained JavaScript file.

@@ -1,6 +1,6 @@
 /*
- * Lovelace Boiler Card v0.7.2
- * Standalone v0.7.1 runtime with dynamic oil-volume rendering.
+ * Lovelace Boiler Card v0.7.3
+ * Standalone v0.7.2 runtime with corrected clipped oil-volume rendering.
  * The visible tank level is driven by oil_volume (sensor.niveau_fioul in the example).
  * No runtime imports or external JS/SVG/image dependencies.
  */
@@ -14,7 +14,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.7.2";
+const BOILER_CARD_VERSION = "0.7.3";
 
 const DEFAULTS = {
   title: "",
@@ -799,7 +799,7 @@ if (Array.isArray(window.customCards)) {
 
 const BoilerCardClass = customElements.get("lovelace-boiler-card");
 if (!BoilerCardClass) {
-  throw new Error("lovelace-boiler-card v0.7.2: embedded base module did not register the card");
+  throw new Error("lovelace-boiler-card v0.7.3: embedded base module did not register the card");
 }
 
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -910,7 +910,7 @@ function buildOilLevelPath(percent) {
 
 function ensureOilLevelElements(group) {
   // ===== TANK DRAWING =====
-  // Erase the baked-in fuel pixels from the raster baseline.
+  // First erase the yellow/orange fuel pixels baked into the raster baseline.
   let erase = group.querySelector("#oil-empty-erase-overlay");
   if (!erase) {
     erase = document.createElementNS(SVG_NS, "image");
@@ -924,18 +924,25 @@ function ensureOilLevelElements(group) {
     group.insertBefore(erase, group.firstChild);
   }
 
-  // ===== FUEL DRAWING =====
-  // Dedicated vector path for the dynamic oil level.
-  let fill = group.querySelector("#oil-fill-v072");
+  // ===== CLEAN LIQUID DRAWING v0.7.3 =====
+  // The tank's existing SVG clip is the single source of truth for the shape.
+  // A simple rectangle provides a perfectly horizontal liquid surface while the
+  // clip produces the exact side walls and rounded bottom corners. This avoids
+  // the hand-built polygon artefacts seen in v0.7.2.
+  let fill = group.querySelector("#oil-fill-v073");
   if (!fill) {
-    fill = document.createElementNS(SVG_NS, "path");
-    fill.setAttribute("id", "oil-fill-v016");
-    fill.setAttribute("class", "oil-fill");
-    fill.setAttribute("pointer-events", "none");
-    fill.setAttribute("opacity", "0.72");
+    group.querySelectorAll("#oil-fill-v016, #oil-fill-v072").forEach((el) => el.remove());
 
-    // ===== TUBE IN THE TANK =====
-    // Keep the suction tube above the fill so it always remains visible.
+    fill = document.createElementNS(SVG_NS, "rect");
+    fill.setAttribute("id", "oil-fill-v073");
+    fill.setAttribute("x", "58");
+    fill.setAttribute("width", "254");
+    fill.setAttribute("clip-path", "url(#oil-tank-clip)");
+    fill.setAttribute("fill", "#b97a57");
+    fill.setAttribute("opacity", "1");
+    fill.setAttribute("pointer-events", "none");
+
+    // Keep the exact validated suction tube above the liquid. No tube geometry changes.
     const tube = Array.from(group.querySelectorAll("path")).find(
       (el) => el.getAttribute("d") === "M190 401 V748 M179 748 H201"
     );
@@ -1016,7 +1023,14 @@ function renderOilLevelV072() {
   const heightPct = volumePercentToHeightPercentV072(volumePct);
 
   const fill = ensureOilLevelElements(group);
-  fill.setAttribute("d", buildOilLevelPath(heightPct));
+  const liquidTopY = clamp(
+    OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100,
+    OIL_TANK.topY,
+    OIL_TANK.bottomY
+  );
+  fill.setAttribute("y", formatNum(liquidTopY));
+  // Extend one pixel beyond the mathematical bottom; the tank clip trims it exactly.
+  fill.setAttribute("height", formatNum(OIL_TANK.bottomY - liquidTopY + 1));
   fill.style.display = heightPct > 0 ? "" : "none";
 }
 
@@ -1025,7 +1039,7 @@ BoilerCardClass.prototype._updateOilFill = renderOilLevelV072;
 if (Array.isArray(window.customCards)) {
   const entry = window.customCards.find((card) => card.type === "lovelace-boiler-card");
   if (entry) {
-    entry.description = "Oil boiler + radiator circuit + DHW tank in one SVG card. v0.7.2 (oil-volume driven tank level)";
+    entry.description = "Oil boiler + radiator circuit + DHW tank in one SVG card. v0.7.3 (clean clipped oil-volume tank fill)";
   }
 }
 })();
