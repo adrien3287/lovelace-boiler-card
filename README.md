@@ -1,12 +1,12 @@
 # Lovelace Boiler Card
 
-**Current version: 0.7.1**
+**Current version: 0.7.2**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
 ## Features
 
-- heating-oil tank with static full grey interior in this release; percentage and liters remain displayed,
+- heating-oil tank with a dynamic liquid level driven by `oil_volume` (`sensor.niveau_fioul` in the example); percentage and liters remain displayed,
 - oil boiler temperature,
 - colour-coded burner flame located inside the boiler,
 - flue/chimney with optional flue-gas temperature,
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.1.js
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.2.js
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload.
@@ -56,6 +56,8 @@ type: custom:lovelace-boiler-card
 oil_level: sensor.pourcent_fioul
 oil_height_percent: sensor.hauteur_fioul_pourcent
 oil_volume: sensor.niveau_fioul
+# Optional: explicit usable capacity in litres. If omitted, v0.7.2 auto-calibrates once from oil_level.
+# oil_capacity_liters: 3000  # example only; replace with the actual usable capacity
 
 boiler_temp: sensor.mosquitto_mqtt_broker_kessel_ist_temperatur
 burner_state: input_select.statut_chaudiere
@@ -238,3 +240,13 @@ Starts from the exact v0.6.9 runtime. Dynamic fuel rendering is disabled, and a 
 - removes the runtime import of `lovelace-boiler-card.js`;
 - embeds the base card, inline SVG/images/state overlays and the v0.6.15 empty-tank override in `lovelace-boiler-card-v0.7.1.js`;
 - keeps v0.6.15 visual/runtime behavior unchanged.
+
+
+## v0.7.2 oil-volume tank level
+
+- remains a self-contained JavaScript resource based on v0.7.1;
+- drives the visible tank liquid from `oil_volume` (`sensor.niveau_fioul` in the example), not `oil_height_percent`;
+- reuses the validated v0.6.16 tank geometry and the v0.7.1 erase-mask approach;
+- converts the volume fraction into a physical liquid height using the rounded tank cross-section;
+- accepts optional `oil_capacity_liters` / `oil_capacity`; when absent, capacity is auto-calibrated once from the existing `oil_level`;
+- clamps the visual fill to 0-100% and keeps the suction tube above the liquid.
