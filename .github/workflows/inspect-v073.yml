@@ -1,0 +1,40 @@
+name: Inspect v0.7.2 tank renderer
+
+on:
+  push:
+    branches:
+      - release/v0.7.3-clean-tank-fill
+    paths:
+      - '.github/workflows/inspect-v073.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release/v0.7.3-clean-tank-fill
+      - name: Print oil renderer context
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('lovelace-boiler-card-v0.7.2.js')
+          s=p.read_text(encoding='utf-8')
+          terms=['oil_capacity_liters','oil_capacity','oil-volume','oil_volume','_updateOilFill','oil-tank-clip','oil-fill-v072','buildOil','volume fraction']
+          seen=[]
+          for term in terms:
+              start=0
+              while True:
+                  i=s.find(term,start)
+                  if i<0: break
+                  if all(abs(i-x)>400 for x in seen):
+                      seen.append(i)
+                      a=max(0,i-2200); b=min(len(s),i+4200)
+                      print('\n===== TERM',term,'AT',i,'=====')
+                      print(s[a:b])
+                  start=i+len(term)
+          PY
