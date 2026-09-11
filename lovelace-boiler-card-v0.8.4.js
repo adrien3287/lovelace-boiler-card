@@ -1,16 +1,16 @@
 /*
  * Lovelace Boiler Card v0.8.4
- * Oil tank alignment refinement based on v0.8.2.
- * Compared with the v0.8.3 target: grey stroke = 13, tank/gauge shifted 4 px left and 2 px up.
+ * Oil tank alignment refinement based on v0.8.3.
+ * Grey stroke = 13; tank and gauge moved 4 px left and 2 px up from v0.8.3.
  */
-import "./lovelace-boiler-card-v0.8.2.js";
+import "./lovelace-boiler-card-v0.8.3.js";
 
 const BoilerCardClassV084 = customElements.get("lovelace-boiler-card");
 if (!BoilerCardClassV084) {
-  throw new Error("lovelace-boiler-card: v0.8.2 base did not register the card");
+  throw new Error("lovelace-boiler-card: v0.8.3 base did not register the card");
 }
 
-// v0.8.3 target was +9 px right / +18 px down from v0.8.2.
+// v0.8.3 uses +9 px right / +18 px down from v0.8.2.
 // v0.8.4 moves that result 4 px left and 2 px up.
 const TANK_SHIFT_X_V084 = 5;
 const TANK_SHIFT_Y_V084 = 16;
@@ -50,6 +50,6 @@ BoilerCardClassV084.prototype._updateOilFill = function () {
 if (Array.isArray(window.customCards)) {
   const entry = window.customCards.find((card) => card.type === "lovelace-boiler-card");
   if (entry) {
-    entry.description = "Oil boiler + radiator circuit + DHW tank. v0.8.4 — grey stroke 13, tank/gauge +5/+16";
+    entry.description = "Oil boiler + radiator circuit + DHW tank. v0.8.4 — grey stroke 13, tank/gauge shifted 4 px left and 2 px up from v0.8.3";
   }
 }
