@@ -1,0 +1,94 @@
+name: Build v0.7.1 single-file package
+
+on:
+  push:
+    branches:
+      - release/v0.7.1-single-file-v0615
+    paths:
+      - '.github/workflows/build-v071-single-file.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release/v0.7.1-single-file-v0615
+          fetch-depth: 0
+
+      - name: Build standalone v0.7.1 from v0.6.15
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re, json
+
+          base_path = Path('lovelace-boiler-card.js')
+          wrapper_path = Path('lovelace-boiler-card-v0.6.15.js')
+          out_path = Path('lovelace-boiler-card-v0.7.1.js')
+
+          base = base_path.read_text(encoding='utf-8')
+          wrapper = wrapper_path.read_text(encoding='utf-8')
+
+          base = base.replace('const BOILER_CARD_VERSION = "0.6.7";', 'const BOILER_CARD_VERSION = "0.7.1";', 1)
+          wrapper = wrapper.replace('import "./lovelace-boiler-card.js";', '')
+          wrapper = wrapper.replace(
+              'throw new Error("lovelace-boiler-card: base v0.6.9 module did not register the card");',
+              'throw new Error("lovelace-boiler-card v0.7.1: embedded base module did not register the card");'
+          )
+          wrapper = wrapper.replace(
+              'v0.6.15 (empty tank)',
+              'v0.7.1 (single-file v0.6.15 behavior)'
+          )
+
+          header = '''/*\n * Lovelace Boiler Card v0.7.1\n * Single-file repackaging of validated v0.6.15 behavior.\n * No runtime imports or external JS/SVG/image dependencies.\n */\n\n'''
+          standalone = (
+              header
+              + base.rstrip()
+              + '\n\n/* ===== v0.6.15 empty-tank compatibility override, embedded for v0.7.1 ===== */\n'
+              + wrapper.strip()
+              + '\n'
+          )
+          out_path.write_text(standalone, encoding='utf-8')
+
+          hacs = {
+              'name': 'Lovelace Boiler Card',
+              'filename': 'lovelace-boiler-card-v0.7.1.js',
+              'render_readme': True,
+          }
+          Path('hacs.json').write_text(json.dumps(hacs, indent=2) + '\n', encoding='utf-8')
+
+          readme = Path('README.md').read_text(encoding='utf-8')
+          readme = re.sub(r'\*\*Current version: [^*]+\*\*', '**Current version: 0.7.1**', readme, count=1)
+          readme = re.sub(
+              r'/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v[^`\n]+\.js',
+              '/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.1.js',
+              readme,
+              count=1,
+          )
+          section = '''\n\n## v0.7.1 single-file package\n\n- repackages the validated v0.6.15 behavior into one self-contained runtime JavaScript file;\n- removes the runtime import of `lovelace-boiler-card.js`;\n- embeds the base card, inline SVG/images/state overlays and the v0.6.15 empty-tank override in `lovelace-boiler-card-v0.7.1.js`;\n- keeps v0.6.15 visual/runtime behavior unchanged.\n'''
+          if '## v0.7.1 single-file package' not in readme:
+              readme += section
+          Path('README.md').write_text(readme, encoding='utf-8')
+
+          changelog = Path('CHANGELOG.md').read_text(encoding='utf-8')
+          entry = '''## 0.7.1\n\n- Repackages the validated v0.6.15 runtime into one self-contained JavaScript file.\n- Removes the runtime import of `lovelace-boiler-card.js`.\n- Embeds the v0.6.15 empty-tank override after the base card registration in the same file.\n- Keeps v0.6.15 visual/runtime behavior unchanged.\n\n'''
+          if not changelog.startswith('## 0.7.1'):
+              changelog = entry + changelog
+          Path('CHANGELOG.md').write_text(changelog, encoding='utf-8')
+          PY
+
+      - name: Validate JavaScript
+        run: node --check lovelace-boiler-card-v0.7.1.js
+
+      - name: Commit generated package
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add lovelace-boiler-card-v0.7.1.js hacs.json README.md CHANGELOG.md
+          git commit -m 'Package v0.7.1 as a single self-contained JS file'
+          git push origin HEAD:release/v0.7.1-single-file-v0615
