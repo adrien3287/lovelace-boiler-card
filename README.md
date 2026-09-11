@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.7.2**
+**Current version: 0.7.3**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.2.js
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.3.js
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload.
@@ -250,3 +250,12 @@ Starts from the exact v0.6.9 runtime. Dynamic fuel rendering is disabled, and a 
 - converts the volume fraction into a physical liquid height using the rounded tank cross-section;
 - accepts optional `oil_capacity_liters` / `oil_capacity`; when absent, capacity is auto-calibrated once from the existing `oil_level`;
 - clamps the visual fill to 0-100% and keeps the suction tube above the liquid.
+
+
+## v0.7.3 clean clipped tank fill
+
+- keeps the v0.7.2 `oil_volume` / capacity calculation and liquid height unchanged;
+- replaces the hand-built liquid polygon with one rectangle clipped by the existing exact tank SVG shape;
+- gives the liquid a perfectly horizontal top and clean rounded lower corners with no black wedges or bottom gaps;
+- uses the reference fill colour `#b97a57`;
+- keeps the validated yellow suction tube and all unrelated card geometry unchanged.
