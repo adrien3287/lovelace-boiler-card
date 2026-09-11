@@ -1,0 +1,81 @@
+name: Build v0.7.4 tank fix
+
+on:
+  push:
+    branches:
+      - release/v0.7.4-tank-fill-resource
+    paths:
+      - '.github/workflows/build-v074.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: release/v0.7.4-tank-fill-resource
+          fetch-depth: 0
+
+      - name: Build stable v0.7.4 runtime
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          src = Path('lovelace-boiler-card-v0.7.3.js')
+          dst = Path('lovelace-boiler-card.js')
+          text = src.read_text(encoding='utf-8')
+
+          # Version bump only inside the runtime file.
+          text = text.replace('v0.7.3', 'v0.7.4').replace('"0.7.3"', '"0.7.4"')
+
+          old = '''  const liquidTopY = clamp(
+            OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100,
+            OIL_TANK.topY,
+            OIL_TANK.bottomY
+          );
+          fill.setAttribute("y", formatNum(liquidTopY));
+          // Extend one pixel beyond the mathematical bottom; the tank clip trims it exactly.
+          fill.setAttribute("height", formatNum(OIL_TANK.bottomY - liquidTopY + 1));'''
+
+          new = '''  // v0.7.4 visual calibration against the validated reference image.
+          // Keep the existing oil-volume calculation and exact tank clip, but let the
+          // liquid rectangle extend to the real bottom of the tank. v0.7.3 stopped at
+          // y=739, which created the black strip and cut off the rounded lower corners.
+          const V074_VISUAL_BOTTOM_Y = 755;
+          const V074_TOP_NUDGE_Y = 6;
+          const mathematicalTopY =
+            OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100;
+          const liquidTopY = clamp(
+            mathematicalTopY - V074_TOP_NUDGE_Y,
+            OIL_TANK.topY,
+            V074_VISUAL_BOTTOM_Y
+          );
+          fill.setAttribute("y", formatNum(liquidTopY));
+          // The existing oil-tank clip remains the only shape definition. Extending
+          // below the old mathematical bottom lets that clip draw the clean rounded base.
+          fill.setAttribute("height", formatNum(V074_VISUAL_BOTTOM_Y - liquidTopY + 1));'''
+
+          if old not in text:
+              raise SystemExit('Expected v0.7.3 liquid render block not found; refusing to build')
+          text = text.replace(old, new, 1)
+
+          # Make the runtime description explicit.
+          text = text.replace(
+              'v0.7.4 (clean clipped oil-volume tank fill)',
+              'v0.7.4 (calibrated clipped oil-volume tank fill)'
+          )
+
+          dst.write_text(text, encoding='utf-8')
+          PY
+
+          node --check lovelace-boiler-card.js
+          git rm lovelace-boiler-card-v0.7.3.js
+          git add lovelace-boiler-card.js
+          git config user.name 'adrien3287'
+          git config user.email '78756933+adrien3287@users.noreply.github.com'
+          git commit -m 'Build v0.7.4 calibrated tank fill with stable runtime path'
+          git push origin HEAD:release/v0.7.4-tank-fill-resource
