@@ -29,44 +29,34 @@ jobs:
           dst = Path('lovelace-boiler-card.js')
           text = src.read_text(encoding='utf-8')
 
-          # Version bump only inside the runtime file.
+          # Version bump inside the self-contained runtime.
           text = text.replace('v0.7.3', 'v0.7.4').replace('"0.7.3"', '"0.7.4"')
 
-          old = '''  const liquidTopY = clamp(
-            OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100,
-            OIL_TANK.topY,
-            OIL_TANK.bottomY
-          );
-          fill.setAttribute("y", formatNum(liquidTopY));
-          // Extend one pixel beyond the mathematical bottom; the tank clip trims it exactly.
-          fill.setAttribute("height", formatNum(OIL_TANK.bottomY - liquidTopY + 1));'''
+          # Keep the existing tank clip and oil-volume calculation. The v0.7.3
+          # rectangle stopped at SVG y=739, although the actual clipped tank body
+          # continues to about y=755. That caused the visible black strip at the base.
+          top_expr = 'OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100,'
+          if top_expr not in text:
+              raise SystemExit('v0.7.3 liquid-top expression not found')
+          text = text.replace(
+              top_expr,
+              'OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100 - 6,',
+              1,
+          )
 
-          new = '''  // v0.7.4 visual calibration against the validated reference image.
-          // Keep the existing oil-volume calculation and exact tank clip, but let the
-          // liquid rectangle extend to the real bottom of the tank. v0.7.3 stopped at
-          // y=739, which created the black strip and cut off the rounded lower corners.
-          const V074_VISUAL_BOTTOM_Y = 755;
-          const V074_TOP_NUDGE_Y = 6;
-          const mathematicalTopY =
-            OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100;
-          const liquidTopY = clamp(
-            mathematicalTopY - V074_TOP_NUDGE_Y,
-            OIL_TANK.topY,
-            V074_VISUAL_BOTTOM_Y
-          );
-          fill.setAttribute("y", formatNum(liquidTopY));
-          // The existing oil-tank clip remains the only shape definition. Extending
-          // below the old mathematical bottom lets that clip draw the clean rounded base.
-          fill.setAttribute("height", formatNum(V074_VISUAL_BOTTOM_Y - liquidTopY + 1));'''
+          bottom_expr = 'formatNum(OIL_TANK.bottomY - liquidTopY + 1)'
+          if bottom_expr not in text:
+              raise SystemExit('v0.7.3 liquid-height expression not found')
+          text = text.replace(bottom_expr, 'formatNum(755 - liquidTopY + 1)', 1)
 
-          if old not in text:
-              raise SystemExit('Expected v0.7.3 liquid render block not found; refusing to build')
-          text = text.replace(old, new, 1)
-
-          # Make the runtime description explicit.
+          text = text.replace(
+              '// Extend one pixel beyond the mathematical bottom; the tank clip trims it exactly.',
+              '// Extend to the real clipped tank bottom; the existing tank clip trims the rounded base exactly.',
+              1,
+          )
           text = text.replace(
               'v0.7.4 (clean clipped oil-volume tank fill)',
-              'v0.7.4 (calibrated clipped oil-volume tank fill)'
+              'v0.7.4 (calibrated clipped oil-volume tank fill)',
           )
 
           dst.write_text(text, encoding='utf-8')
