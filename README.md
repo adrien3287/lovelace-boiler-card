@@ -1,6 +1,6 @@
 # Lovelace Boiler Card
 
-**Current version: 0.7.3**
+**Current version: 0.7.4**
 
 A single-SVG Home Assistant Lovelace card for an oil-fired boiler installation with one radiator circuit and one parallel domestic-hot-water circuit.
 
@@ -35,7 +35,7 @@ In HACS:
 The resource is normally:
 
 ```text
-/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.3.js
+/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js
 ```
 
 If your browser or Home Assistant keeps an older JavaScript file in cache, force a reload.
@@ -151,7 +151,7 @@ flue_gas_temp: sensor.temperature_fumees
 
 No build step is required. For a release:
 
-1. update the versioned HACS entry point,
+1. keep the stable HACS entry point `lovelace-boiler-card.js`,
 2. update `CHANGELOG.md`,
 3. commit and tag the release,
 4. create the corresponding GitHub release so HACS can expose the new version cleanly.
@@ -259,3 +259,11 @@ Starts from the exact v0.6.9 runtime. Dynamic fuel rendering is disabled, and a 
 - gives the liquid a perfectly horizontal top and clean rounded lower corners with no black wedges or bottom gaps;
 - uses the reference fill colour `#b97a57`;
 - keeps the validated yellow suction tube and all unrelated card geometry unchanged.
+
+
+## v0.7.4 calibrated tank fill and stable resource
+
+- extends the liquid rectangle to the real clipped bottom of the oil tank, removing the black strip left by v0.7.3;
+- nudges the liquid surface slightly upward to match the supplied reference image at the same measured volume;
+- keeps the existing tank clip, flat liquid surface, reference colour `#b97a57`, oil-volume calculation and suction tube unchanged;
+- switches HACS to the stable runtime name `lovelace-boiler-card.js` so future releases do not create a new resource URL each time.

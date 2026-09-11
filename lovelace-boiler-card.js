@@ -1,5 +1,5 @@
 /*
- * Lovelace Boiler Card v0.7.3
+ * Lovelace Boiler Card v0.7.4
  * Standalone v0.7.2 runtime with corrected clipped oil-volume rendering.
  * The visible tank level is driven by oil_volume (sensor.niveau_fioul in the example).
  * No runtime imports or external JS/SVG/image dependencies.
@@ -14,7 +14,7 @@
  * Card type: custom:lovelace-boiler-card
  */
 
-const BOILER_CARD_VERSION = "0.7.3";
+const BOILER_CARD_VERSION = "0.7.4";
 
 const DEFAULTS = {
   title: "",
@@ -799,7 +799,7 @@ if (Array.isArray(window.customCards)) {
 
 const BoilerCardClass = customElements.get("lovelace-boiler-card");
 if (!BoilerCardClass) {
-  throw new Error("lovelace-boiler-card v0.7.3: embedded base module did not register the card");
+  throw new Error("lovelace-boiler-card v0.7.4: embedded base module did not register the card");
 }
 
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -924,7 +924,7 @@ function ensureOilLevelElements(group) {
     group.insertBefore(erase, group.firstChild);
   }
 
-  // ===== CLEAN LIQUID DRAWING v0.7.3 =====
+  // ===== CLEAN LIQUID DRAWING v0.7.4 =====
   // The tank's existing SVG clip is the single source of truth for the shape.
   // A simple rectangle provides a perfectly horizontal liquid surface while the
   // clip produces the exact side walls and rounded bottom corners. This avoids
@@ -1024,13 +1024,13 @@ function renderOilLevelV072() {
 
   const fill = ensureOilLevelElements(group);
   const liquidTopY = clamp(
-    OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100,
+    OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100 - 6,
     OIL_TANK.topY,
     OIL_TANK.bottomY
   );
   fill.setAttribute("y", formatNum(liquidTopY));
-  // Extend one pixel beyond the mathematical bottom; the tank clip trims it exactly.
-  fill.setAttribute("height", formatNum(OIL_TANK.bottomY - liquidTopY + 1));
+  // Extend to the real clipped tank bottom; the existing tank clip trims the rounded base exactly.
+  fill.setAttribute("height", formatNum(755 - liquidTopY + 1));
   fill.style.display = heightPct > 0 ? "" : "none";
 }
 
@@ -1039,7 +1039,7 @@ BoilerCardClass.prototype._updateOilFill = renderOilLevelV072;
 if (Array.isArray(window.customCards)) {
   const entry = window.customCards.find((card) => card.type === "lovelace-boiler-card");
   if (entry) {
-    entry.description = "Oil boiler + radiator circuit + DHW tank in one SVG card. v0.7.3 (clean clipped oil-volume tank fill)";
+    entry.description = "Oil boiler + radiator circuit + DHW tank in one SVG card. v0.7.4 (calibrated clipped oil-volume tank fill)";
   }
 }
 })();

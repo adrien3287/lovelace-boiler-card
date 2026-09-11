@@ -1,3 +1,10 @@
+## 0.7.4
+
+- Fixes the remaining black strip at the bottom of the oil tank by extending the clipped liquid layer to the real tank bottom.
+- Moves the liquid surface slightly upward to match the supplied visual reference.
+- Keeps the existing tank clip, brown fill, oil-volume calculation and suction tube unchanged.
+- Uses stable HACS/runtime filename `lovelace-boiler-card.js` to avoid changing the dashboard resource URL on every release.
+
 ## 0.7.3
 
 - Keeps the v0.7.2 oil-volume/capacity calculation.
