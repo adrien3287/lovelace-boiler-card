@@ -1,4 +1,4 @@
-name: Build v0.7.4 tank fix
+name: Finalize v0.7.4
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  finalize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,53 +19,41 @@ jobs:
           ref: release/v0.7.4-tank-fill-resource
           fetch-depth: 0
 
-      - name: Build stable v0.7.4 runtime
+      - name: Update docs and remove temporary workflow
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
 
-          src = Path('lovelace-boiler-card-v0.7.3.js')
-          dst = Path('lovelace-boiler-card.js')
-          text = src.read_text(encoding='utf-8')
-
-          # Version bump inside the self-contained runtime.
-          text = text.replace('v0.7.3', 'v0.7.4').replace('"0.7.3"', '"0.7.4"')
-
-          # Keep the existing tank clip and oil-volume calculation. The v0.7.3
-          # rectangle stopped at SVG y=739, although the actual clipped tank body
-          # continues to about y=755. That caused the visible black strip at the base.
-          top_expr = 'OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100,'
-          if top_expr not in text:
-              raise SystemExit('v0.7.3 liquid-top expression not found')
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+          text = text.replace('**Current version: 0.7.3**', '**Current version: 0.7.4**', 1)
           text = text.replace(
-              top_expr,
-              'OIL_TANK.bottomY - ((OIL_TANK.bottomY - OIL_TANK.topY) * heightPct) / 100 - 6,',
-              1,
-          )
-
-          bottom_expr = 'formatNum(OIL_TANK.bottomY - liquidTopY + 1)'
-          if bottom_expr not in text:
-              raise SystemExit('v0.7.3 liquid-height expression not found')
-          text = text.replace(bottom_expr, 'formatNum(755 - liquidTopY + 1)', 1)
-
-          text = text.replace(
-              '// Extend one pixel beyond the mathematical bottom; the tank clip trims it exactly.',
-              '// Extend to the real clipped tank bottom; the existing tank clip trims the rounded base exactly.',
+              '/hacsfiles/lovelace-boiler-card/lovelace-boiler-card-v0.7.3.js',
+              '/hacsfiles/lovelace-boiler-card/lovelace-boiler-card.js',
               1,
           )
           text = text.replace(
-              'v0.7.4 (clean clipped oil-volume tank fill)',
-              'v0.7.4 (calibrated clipped oil-volume tank fill)',
+              '1. update the versioned HACS entry point,',
+              '1. keep the stable HACS entry point `lovelace-boiler-card.js`,',
+              1,
           )
+          if '## v0.7.4 calibrated tank fill and stable resource' not in text:
+              text += '''\n\n## v0.7.4 calibrated tank fill and stable resource\n\n- extends the liquid rectangle to the real clipped bottom of the oil tank, removing the black strip left by v0.7.3;\n- nudges the liquid surface slightly upward to match the supplied reference image at the same measured volume;\n- keeps the existing tank clip, flat liquid surface, reference colour `#b97a57`, oil-volume calculation and suction tube unchanged;\n- switches HACS to the stable runtime name `lovelace-boiler-card.js` so future releases do not create a new resource URL each time.\n'''
+          readme.write_text(text, encoding='utf-8')
 
-          dst.write_text(text, encoding='utf-8')
+          changelog = Path('CHANGELOG.md')
+          text = changelog.read_text(encoding='utf-8')
+          entry = '''## 0.7.4\n\n- Fixes the remaining black strip at the bottom of the oil tank by extending the clipped liquid layer to the real tank bottom.\n- Moves the liquid surface slightly upward to match the supplied visual reference.\n- Keeps the existing tank clip, brown fill, oil-volume calculation and suction tube unchanged.\n- Uses stable HACS/runtime filename `lovelace-boiler-card.js` to avoid changing the dashboard resource URL on every release.\n\n'''
+          if not text.startswith('## 0.7.4'):
+              text = entry + text
+          changelog.write_text(text, encoding='utf-8')
           PY
 
           node --check lovelace-boiler-card.js
-          git rm lovelace-boiler-card-v0.7.3.js
-          git add lovelace-boiler-card.js
+          git rm .github/workflows/build-v074.yml
+          git add README.md CHANGELOG.md hacs.json lovelace-boiler-card.js
           git config user.name 'adrien3287'
           git config user.email '78756933+adrien3287@users.noreply.github.com'
-          git commit -m 'Build v0.7.4 calibrated tank fill with stable runtime path'
+          git commit -m 'Finalize v0.7.4 tank fix and stable HACS resource'
           git push origin HEAD:release/v0.7.4-tank-fill-resource
