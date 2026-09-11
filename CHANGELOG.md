@@ -1,3 +1,10 @@
+## 0.7.1
+
+- Repackages the validated v0.6.15 runtime into one self-contained JavaScript file.
+- Removes the runtime import of `lovelace-boiler-card.js`.
+- Embeds the v0.6.15 empty-tank override after the base card registration in the same file.
+- Keeps v0.6.15 visual/runtime behavior unchanged.
+
 ## 0.6.17
 
 - Based on the v0.6.15 empty-tank rendering approach.
